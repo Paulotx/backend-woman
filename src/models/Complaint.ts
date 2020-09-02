@@ -1,0 +1,54 @@
+import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+
+@Entity('complaints')
+class Complaint {
+    @PrimaryGeneratedColumn('increment')
+    id: number;
+
+    @Column()
+    victim: string;
+
+    @Column()
+    cpf: string;
+
+    @Column()
+    phone: string;
+
+    @Column()
+    cep: string;
+
+    @Column()
+    address: string;
+
+    @Column('number')
+    number: number;
+
+    @Column()
+    complement: string;
+
+    @Column()
+    uf: string;
+
+    @Column()
+    city: string;
+
+    @Column()
+    subject: string;
+
+    @Column()
+    attacker: string;
+
+    @Column()
+    identification: string;
+
+    @Column()
+    report: string;
+
+    @Column()
+    note: string;
+
+    @Column()
+    status: string;
+}
+
+export default Complaint;
