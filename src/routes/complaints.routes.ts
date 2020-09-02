@@ -1,19 +1,19 @@
 import { Router } from 'express';
+import { getCustomRepository } from 'typeorm';
 
 import ComplaintsRepository from '../repositories/ComplaintsRepository';
 import CreateComplaintsService from '../services/CreateComplaintsService';
 
 const complaintsRouter = Router();
 
-const complaintsRepository = new ComplaintsRepository();
-
-complaintsRouter.get('/', (request, response) => {
-    const complaints = complaintsRepository.all();
+complaintsRouter.get('/', async (request, response) => {
+    const complaintsRepository = getCustomRepository(ComplaintsRepository);
+    const complaints = await complaintsRepository.find();
 
     return response.json(complaints);
 });
 
-complaintsRouter.post('/', (request, response) => {
+complaintsRouter.post('/', async (request, response) => {
     try {
         const {
             victim,
@@ -31,11 +31,9 @@ complaintsRouter.post('/', (request, response) => {
             report,
         } = request.body;
 
-        const createComplaint = new CreateComplaintsService(
-            complaintsRepository,
-        );
+        const createComplaint = new CreateComplaintsService();
 
-        const complaint = createComplaint.execute({
+        const complaint = await createComplaint.execute({
             victim,
             cpf,
             phone,

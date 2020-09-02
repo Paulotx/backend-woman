@@ -20,7 +20,7 @@ class Complaint {
     @Column()
     address: string;
 
-    @Column('number')
+    @Column('int')
     number: number;
 
     @Column()

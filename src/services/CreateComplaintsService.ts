@@ -1,3 +1,5 @@
+import { getCustomRepository } from 'typeorm';
+
 import Complaint from '../models/Complaint';
 import ComplaintsRepository from '../repositories/ComplaintsRepository';
 
@@ -20,14 +22,10 @@ interface Request {
 }
 
 class CreateComplaintsService {
-    private complaintsRepository: ComplaintsRepository;
+    public async execute(data: Request): Promise<Complaint> {
+        const complaintsRepository = getCustomRepository(ComplaintsRepository);
 
-    constructor(complaintsRepository: ComplaintsRepository) {
-        this.complaintsRepository = complaintsRepository;
-    }
-
-    public execute(data: Request): Complaint {
-        const findComplaintsOpen = this.complaintsRepository.findByCpf(
+        const findComplaintsOpen = await complaintsRepository.findByCpf(
             data.cpf,
         );
 
@@ -35,7 +33,7 @@ class CreateComplaintsService {
             throw Error('There is already an open complaint with this cpf.');
         }
 
-        const complaint = this.complaintsRepository.create({
+        const complaint = complaintsRepository.create({
             victim: data.victim,
             cpf: data.cpf,
             phone: data.phone,
@@ -52,6 +50,8 @@ class CreateComplaintsService {
             note: data.note,
             status: data.status,
         });
+
+        await complaintsRepository.save(complaint);
 
         return complaint;
     }
