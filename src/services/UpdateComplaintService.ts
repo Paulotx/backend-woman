@@ -5,27 +5,36 @@ import ComplaintRepository from '../repositories/ComplaintsRepository';
 
 interface Request {
     id: number;
-    note: string;
-    status: string;
+    phone: string;
+    cep: string;
+    address: string;
+    number: number;
+    complement: string;
+    uf: string;
+    city: string;
+    subject: string;
+    attacker: string;
+    identification?: string;
+    report: string;
+    note?: string;
+    status?: string;
 }
 
 class UpdateComplaintService {
-    public async execute({ id, note, status }: Request): Promise<Complaint> {
+    public async execute(data: Request): Promise<Complaint> {
         const complaintRepository = getCustomRepository(ComplaintRepository);
 
-        const complaint = await complaintRepository.findOne(id);
+        let complaint = await complaintRepository.findOne(data.id);
 
         if (!complaint) {
             throw Error('Complaint not found!');
         }
 
-        if (note) {
-            complaint.note = note;
-        }
-
-        if (status) {
-            complaint.status = status;
-        }
+        complaint = {
+            ...complaint,
+            ...data,
+            updated_at: new Date(Date.now()),
+        };
 
         await complaintRepository.save(complaint);
 

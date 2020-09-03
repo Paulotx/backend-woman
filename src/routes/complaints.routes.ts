@@ -44,14 +44,25 @@ complaintsRouter.post('/', async (request, response) => {
 
 complaintsRouter.put('/', async (request, response) => {
     try {
-        const { id, note, status } = request.body;
+        const data = request.body;
 
         const updateComplaint = new UpdateComplaintService();
 
         const complaint = await updateComplaint.execute({
-            id: Number(id),
-            note,
-            status,
+            id: data.id,
+            phone: data.phone,
+            cep: data.cep,
+            address: data.address,
+            number: data.number,
+            complement: data.complement,
+            uf: data.uf,
+            city: data.city,
+            subject: data.subject,
+            attacker: data.attacker,
+            identification: data.identification,
+            report: data.report,
+            note: data.note,
+            status: data.status,
         });
 
         return response.json(complaint);
