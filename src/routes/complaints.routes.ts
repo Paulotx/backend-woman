@@ -3,6 +3,7 @@ import { getCustomRepository } from 'typeorm';
 
 import ComplaintsRepository from '../repositories/ComplaintsRepository';
 import CreateComplaintsService from '../services/CreateComplaintsService';
+import UpdateComplaintService from '../services/UpdateComplaintService';
 
 const complaintsRouter = Router();
 
@@ -47,6 +48,24 @@ complaintsRouter.post('/', async (request, response) => {
             attacker,
             identification,
             report,
+        });
+
+        return response.json(complaint);
+    } catch (err) {
+        return response.status(400).json({ message: err.message });
+    }
+});
+
+complaintsRouter.put('/', async (request, response) => {
+    try {
+        const { id, note, status } = request.body;
+
+        const updateComplaint = new UpdateComplaintService();
+
+        const complaint = await updateComplaint.execute({
+            id: Number(id),
+            note,
+            status,
         });
 
         return response.json(complaint);
