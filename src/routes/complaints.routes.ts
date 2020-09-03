@@ -16,38 +16,24 @@ complaintsRouter.get('/', async (request, response) => {
 
 complaintsRouter.post('/', async (request, response) => {
     try {
-        const {
-            victim,
-            cpf,
-            phone,
-            cep,
-            address,
-            number,
-            complement,
-            uf,
-            city,
-            subject,
-            attacker,
-            identification,
-            report,
-        } = request.body;
+        const data = request.body;
 
         const createComplaint = new CreateComplaintsService();
 
         const complaint = await createComplaint.execute({
-            victim,
-            cpf,
-            phone,
-            cep,
-            address,
-            number,
-            complement,
-            uf,
-            city,
-            subject,
-            attacker,
-            identification,
-            report,
+            victim: data.victim,
+            cpf: data.cpf,
+            phone: data.phone,
+            cep: data.cep,
+            address: data.address,
+            number: data.number,
+            complement: data.complement,
+            uf: data.uf,
+            city: data.city,
+            subject: data.subject,
+            attacker: data.attacker,
+            identification: data.identification,
+            report: data.report,
         });
 
         return response.json(complaint);
