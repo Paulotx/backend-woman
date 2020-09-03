@@ -17,32 +17,26 @@ export default class CreateComplaints1599010781018
                     {
                         name: 'victim',
                         type: 'varchar',
-                        isNullable: false,
                     },
                     {
                         name: 'cpf',
                         type: 'varchar',
-                        isNullable: false,
                     },
                     {
                         name: 'phone',
                         type: 'varchar',
-                        isNullable: false,
                     },
                     {
                         name: 'cep',
                         type: 'varchar',
-                        isNullable: false,
                     },
                     {
                         name: 'address',
                         type: 'varchar',
-                        isNullable: false,
                     },
                     {
                         name: 'number',
                         type: 'integer',
-                        isNullable: false,
                     },
                     {
                         name: 'complement',
@@ -52,22 +46,18 @@ export default class CreateComplaints1599010781018
                     {
                         name: 'uf',
                         type: 'varchar(2)',
-                        isNullable: false,
                     },
                     {
                         name: 'city',
                         type: 'varchar',
-                        isNullable: false,
                     },
                     {
                         name: 'subject',
                         type: 'varchar',
-                        isNullable: false,
                     },
                     {
                         name: 'attacker',
                         type: 'varchar',
-                        isNullable: false,
                     },
                     {
                         name: 'identification',
@@ -77,7 +67,6 @@ export default class CreateComplaints1599010781018
                     {
                         name: 'report',
                         type: 'varchar',
-                        isNullable: false,
                     },
                     {
                         name: 'note',
@@ -89,14 +78,16 @@ export default class CreateComplaints1599010781018
                         type: 'varchar',
                         isNullable: true,
                     },
-                    // {
-                    //     name: 'created_at',
-                    //     type: 'timestamp',
-                    // },
-                    // {
-                    //     name: 'updated_at',
-                    //     type: 'timestamp',
-                    // },
+                    {
+                        name: 'created_at',
+                        type: 'timestamp',
+                        default: 'now()',
+                    },
+                    {
+                        name: 'updated_at',
+                        type: 'timestamp',
+                        default: 'now()',
+                    },
                 ],
             }),
         );

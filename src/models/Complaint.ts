@@ -1,4 +1,9 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import {
+    Entity,
+    Column,
+    PrimaryGeneratedColumn,
+    CreateDateColumn,
+} from 'typeorm';
 
 @Entity('complaints')
 class Complaint {
@@ -49,6 +54,12 @@ class Complaint {
 
     @Column()
     status: string;
+
+    @CreateDateColumn()
+    created_at: Date;
+
+    @CreateDateColumn()
+    updated_at: Date;
 }
 
 export default Complaint;
