@@ -1,6 +1,7 @@
 import { Router } from 'express';
 
 import CreateUsersService from '../services/CreateUsersService';
+import UpdateUsersService from '../services/UpdateUsersService';
 
 const usersRouter = Router();
 
@@ -22,6 +23,25 @@ usersRouter.post('/', async (request, response) => {
         });
 
         delete user.password;
+
+        return response.json(user);
+    } catch (err) {
+        return response.status(400).json({ message: err.message });
+    }
+});
+
+usersRouter.put('/', async (request, response) => {
+    try {
+        const { id, name, email, perfil } = request.body;
+
+        const updateUser = new UpdateUsersService();
+
+        const user = await updateUser.execute({
+            id,
+            name,
+            email,
+            perfil,
+        });
 
         return response.json(user);
     } catch (err) {
