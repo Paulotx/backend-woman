@@ -5,6 +5,7 @@ import User from '../models/User';
 
 import CreateUsersService from '../services/CreateUsersService';
 import UpdateUsersService from '../services/UpdateUsersService';
+import DeleteUsersService from '../services/DeleteUsersService';
 
 const usersRouter = Router();
 
@@ -51,6 +52,20 @@ usersRouter.put('/:id', async (request, response) => {
         });
 
         return response.json(user);
+    } catch (err) {
+        return response.status(400).json({ message: err.message });
+    }
+});
+
+usersRouter.delete('/:id', async (request, response) => {
+    try {
+        const { id } = request.params;
+
+        const deleteUser = new DeleteUsersService();
+
+        deleteUser.execute({ id });
+
+        return response.json({ message: 'OK' });
     } catch (err) {
         return response.status(400).json({ message: err.message });
     }
