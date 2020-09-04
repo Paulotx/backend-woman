@@ -5,9 +5,14 @@ import ComplaintsRepository from '../repositories/ComplaintsRepository';
 import CreateComplaintsService from '../services/CreateComplaintsService';
 import UpdateComplaintService from '../services/UpdateComplaintService';
 
+import ensureAuthenticate from '../middlewares/ensureAuthenticated';
+
 const complaintsRouter = Router();
 
+complaintsRouter.use(ensureAuthenticate);
+
 complaintsRouter.get('/', async (request, response) => {
+    console.log(request.user);
     const complaintsRepository = getCustomRepository(ComplaintsRepository);
     const complaints = await complaintsRepository.find();
 
