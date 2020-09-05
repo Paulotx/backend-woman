@@ -6,20 +6,18 @@ import CreateComplaintsService from '../services/CreateComplaintsService';
 import UpdateComplaintService from '../services/UpdateComplaintService';
 
 import ensureAuthenticate from '../middlewares/ensureAuthenticated';
+import onlyDelegateAndAdmin from '../middlewares/onlyDelegateAndAdmin';
 
 const complaintsRouter = Router();
 
-complaintsRouter.use(ensureAuthenticate);
-
-complaintsRouter.get('/', async (request, response) => {
-    console.log(request.user);
+complaintsRouter.get('/', onlyDelegateAndAdmin, async (request, response) => {
     const complaintsRepository = getCustomRepository(ComplaintsRepository);
     const complaints = await complaintsRepository.find();
 
     return response.json(complaints);
 });
 
-complaintsRouter.post('/', async (request, response) => {
+complaintsRouter.post('/', ensureAuthenticate, async (request, response) => {
     try {
         const data = request.body;
 
@@ -47,7 +45,7 @@ complaintsRouter.post('/', async (request, response) => {
     }
 });
 
-complaintsRouter.put('/', async (request, response) => {
+complaintsRouter.put('/', onlyDelegateAndAdmin, async (request, response) => {
     try {
         const data = request.body;
 

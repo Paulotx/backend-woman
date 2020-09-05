@@ -7,7 +7,11 @@ import CreateUsersService from '../services/CreateUsersService';
 import UpdateUsersService from '../services/UpdateUsersService';
 import DeleteUsersService from '../services/DeleteUsersService';
 
+import onlyAdmin from '../middlewares/onlyAdmin';
+
 const usersRouter = Router();
+
+usersRouter.use(onlyAdmin);
 
 usersRouter.get('/', async (request, response) => {
     const usersRepository = getRepository(User);
