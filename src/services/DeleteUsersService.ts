@@ -1,5 +1,7 @@
 import { getRepository } from 'typeorm';
 
+import AppError from '../errors/AppError';
+
 import User from '../models/User';
 
 interface Request {
@@ -13,7 +15,7 @@ class DeleteUsersService {
         const user = await usersRepository.findOne(id);
 
         if (!user) {
-            throw new Error('User not found.');
+            throw new AppError('User not found.');
         }
 
         await usersRepository.remove(user);

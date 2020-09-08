@@ -25,14 +25,6 @@ class CreateComplaintsService {
     public async execute(data: Request): Promise<Complaint> {
         const complaintsRepository = getCustomRepository(ComplaintsRepository);
 
-        const findComplaintsOpen = await complaintsRepository.findByCpf(
-            data.cpf,
-        );
-
-        if (findComplaintsOpen) {
-            throw Error('There is already an open complaint with this cpf.');
-        }
-
         const complaint = complaintsRepository.create({
             victim: data.victim,
             cpf: data.cpf,
@@ -48,7 +40,7 @@ class CreateComplaintsService {
             identification: data.identification,
             report: data.report,
             note: data.note,
-            status: data.status,
+            status: 'open',
         });
 
         await complaintsRepository.save(complaint);

@@ -1,5 +1,6 @@
 import { getCustomRepository } from 'typeorm';
 
+import AppError from '../errors/AppError';
 import Complaint from '../models/Complaint';
 import ComplaintRepository from '../repositories/ComplaintsRepository';
 
@@ -26,8 +27,10 @@ class UpdateComplaintService {
 
         let complaint = await complaintRepository.findOne(data.id);
 
+        console.log(complaint);
+
         if (!complaint) {
-            throw Error('Complaint not found!');
+            throw new AppError('Complaint not found!');
         }
 
         complaint = {

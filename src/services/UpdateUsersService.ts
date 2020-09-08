@@ -1,5 +1,6 @@
 import { getRepository } from 'typeorm';
 
+import AppError from '../errors/AppError';
 import User from '../models/User';
 
 interface Request {
@@ -16,7 +17,7 @@ class UpdateUserService {
         const user = await usersRepository.findOne(id);
 
         if (!user) {
-            throw new Error('User not found.');
+            throw new AppError('User not found.');
         }
 
         const findUserWithEmail = await usersRepository.findOne({
@@ -26,7 +27,7 @@ class UpdateUserService {
         });
 
         if (findUserWithEmail && findUserWithEmail.id !== id) {
-            throw new Error('E-mail already in use.');
+            throw new AppError('E-mail already in use.');
         }
 
         user.name = name;

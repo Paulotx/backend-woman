@@ -10,6 +10,8 @@ import onlyDelegateAndAdmin from '../middlewares/onlyDelegateAndAdmin';
 
 const complaintsRouter = Router();
 
+complaintsRouter.use(ensureAuthenticate);
+
 complaintsRouter.get('/', onlyDelegateAndAdmin, async (request, response) => {
     const complaintsRepository = getCustomRepository(ComplaintsRepository);
     const complaints = await complaintsRepository.find();
@@ -17,61 +19,53 @@ complaintsRouter.get('/', onlyDelegateAndAdmin, async (request, response) => {
     return response.json(complaints);
 });
 
-complaintsRouter.post('/', ensureAuthenticate, async (request, response) => {
-    try {
-        const data = request.body;
+complaintsRouter.post('/', async (request, response) => {
+    const data = request.body;
 
-        const createComplaint = new CreateComplaintsService();
+    const createComplaint = new CreateComplaintsService();
 
-        const complaint = await createComplaint.execute({
-            victim: data.victim,
-            cpf: data.cpf,
-            phone: data.phone,
-            cep: data.cep,
-            address: data.address,
-            number: data.number,
-            complement: data.complement,
-            uf: data.uf,
-            city: data.city,
-            subject: data.subject,
-            attacker: data.attacker,
-            identification: data.identification,
-            report: data.report,
-        });
+    const complaint = await createComplaint.execute({
+        victim: data.victim,
+        cpf: data.cpf,
+        phone: data.phone,
+        cep: data.cep,
+        address: data.address,
+        number: data.number,
+        complement: data.complement,
+        uf: data.uf,
+        city: data.city,
+        subject: data.subject,
+        attacker: data.attacker,
+        identification: data.identification,
+        report: data.report,
+    });
 
-        return response.json(complaint);
-    } catch (err) {
-        return response.status(400).json({ message: err.message });
-    }
+    return response.json(complaint);
 });
 
 complaintsRouter.put('/', onlyDelegateAndAdmin, async (request, response) => {
-    try {
-        const data = request.body;
+    const data = request.body;
 
-        const updateComplaint = new UpdateComplaintService();
+    const updateComplaint = new UpdateComplaintService();
 
-        const complaint = await updateComplaint.execute({
-            id: data.id,
-            phone: data.phone,
-            cep: data.cep,
-            address: data.address,
-            number: data.number,
-            complement: data.complement,
-            uf: data.uf,
-            city: data.city,
-            subject: data.subject,
-            attacker: data.attacker,
-            identification: data.identification,
-            report: data.report,
-            note: data.note,
-            status: data.status,
-        });
+    const complaint = await updateComplaint.execute({
+        id: data.id,
+        phone: data.phone,
+        cep: data.cep,
+        address: data.address,
+        number: data.number,
+        complement: data.complement,
+        uf: data.uf,
+        city: data.city,
+        subject: data.subject,
+        attacker: data.attacker,
+        identification: data.identification,
+        report: data.report,
+        note: data.note,
+        status: data.status,
+    });
 
-        return response.json(complaint);
-    } catch (err) {
-        return response.status(400).json({ message: err.message });
-    }
+    return response.json(complaint);
 });
 
 export default complaintsRouter;
