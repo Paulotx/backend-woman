@@ -37,13 +37,9 @@ class ComplaintsRepository implements IComplaintsRepository {
     }
 
     public async save(complaint: Complaint): Promise<Complaint> {
-        const index = this.complaints.findIndex(
-            complaintItem => complaintItem.id === complaint.id,
-        );
+        this.complaints[complaint.id - 1] = complaint;
 
-        this.complaints[index] = complaint;
-
-        return this.complaints[index];
+        return this.complaints[complaint.id - 1];
     }
 }
 
