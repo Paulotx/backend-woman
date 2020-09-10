@@ -5,7 +5,7 @@ export default interface ICreateComplaintDTO {
     cep: string;
     address: string;
     number: number;
-    complement: string;
+    complement?: string;
     uf: string;
     city: string;
     subject: string;
