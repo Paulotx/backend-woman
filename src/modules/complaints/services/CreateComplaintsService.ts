@@ -17,8 +17,6 @@ interface IRequest {
     attacker: string;
     identification?: string;
     report: string;
-    note?: string;
-    status?: string;
 }
 
 @injectable()
@@ -43,6 +41,7 @@ class CreateComplaintsService {
             attacker: data.attacker,
             identification: data.identification,
             report: data.report,
+            status: 'open',
         });
 
         return complaint;

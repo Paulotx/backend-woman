@@ -41,7 +41,7 @@ class ComplaintsRepository implements IComplaintsRepository {
             attacker: data.attacker,
             identification: data.identification,
             report: data.report,
-            status: 'open',
+            status: data.status,
         });
 
         await this.ormRepository.save(complaint);

@@ -29,7 +29,6 @@ describe('UpdateComplaintService', () => {
             attacker: 'Jack',
             identification: '333.333.333-33',
             report: 'Me bateu',
-            status: 'open',
         });
 
         const complaintUpdate = await updateComplaint.execute({
@@ -78,10 +77,9 @@ describe('UpdateComplaintService', () => {
             attacker: 'Jack',
             identification: '333.333.333-33',
             report: 'Me bateu',
-            status: 'open',
         });
 
-        await expect(
+        expect(
             updateComplaint.execute({
                 id: 11,
                 phone: '(62) 98221-1979',

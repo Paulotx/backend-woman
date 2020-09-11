@@ -22,7 +22,6 @@ describe('CreateComplaintsService', () => {
             attacker: 'Jack',
             identification: '333.333.333-33',
             report: 'Me bateu',
-            status: 'open',
         });
 
         expect(complaint).toHaveProperty('id');

@@ -12,4 +12,5 @@ export default interface ICreateComplaintDTO {
     attacker: string;
     identification?: string;
     report: string;
+    status: string;
 }

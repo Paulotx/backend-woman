@@ -28,7 +28,6 @@ class ComplaintsRepository implements IComplaintsRepository {
         Object.assign(complaint, {
             id: this.complaints.length + 1,
             ...data,
-            status: 'open',
         });
 
         this.complaints.push(complaint);
