@@ -24,7 +24,7 @@ describe('CreateUsers', () => {
         expect(user).toHaveProperty('id');
     });
 
-    it('should not be able to create a new user with same email from another', async () => {
+    it('should not be able to update a user with same email from another', async () => {
         const fakeUsersRepository = new FakeUsersRepository();
         const fakeHashProvider = new FakeHashProvider();
 
