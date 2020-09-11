@@ -1,22 +1,14 @@
 import AppError from '@shared/errors/AppError';
 import FakeUsersRepository from '../repositories/fakes/FakeUsersRepository';
-import FakeHashProvider from '../providers/HashProvider/fakes/FakeHashProvider';
-import CreateUsersService from './CreateUsersService';
 import UpdateUsersService from './UpdateUsersService';
 
 describe('UpdateUsers', () => {
     it('should be able to update a user', async () => {
         const fakeUsersRepository = new FakeUsersRepository();
-        const fakeHashProvider = new FakeHashProvider();
-
-        const createUsers = new CreateUsersService(
-            fakeUsersRepository,
-            fakeHashProvider,
-        );
 
         const updateUsers = new UpdateUsersService(fakeUsersRepository);
 
-        const user = await createUsers.execute({
+        const user = await fakeUsersRepository.create({
             name: 'User Test',
             email: 'user@gmail.com',
             perfil: 'admin',
@@ -38,7 +30,7 @@ describe('UpdateUsers', () => {
 
         const updateUsers = new UpdateUsersService(fakeUsersRepository);
 
-        expect(
+        await expect(
             updateUsers.execute({
                 id: 'does not exist',
                 name: 'User Test',
@@ -50,30 +42,24 @@ describe('UpdateUsers', () => {
 
     it('should be able to update a user', async () => {
         const fakeUsersRepository = new FakeUsersRepository();
-        const fakeHashProvider = new FakeHashProvider();
-
-        const createUsers = new CreateUsersService(
-            fakeUsersRepository,
-            fakeHashProvider,
-        );
 
         const updateUsers = new UpdateUsersService(fakeUsersRepository);
 
-        await createUsers.execute({
+        await fakeUsersRepository.create({
             name: 'User',
             email: 'user@gmail.com',
             perfil: 'admin',
             password: '123456',
         });
 
-        const user = await createUsers.execute({
+        const user = await fakeUsersRepository.create({
             name: 'User 2',
             email: 'user2@gmail.com',
             perfil: 'admin',
             password: '123456',
         });
 
-        expect(
+        await expect(
             updateUsers.execute({
                 id: user.id,
                 name: 'User 2',

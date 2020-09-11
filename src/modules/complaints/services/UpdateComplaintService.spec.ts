@@ -81,7 +81,7 @@ describe('UpdateComplaintService', () => {
             status: 'open',
         });
 
-        expect(
+        await expect(
             updateComplaint.execute({
                 id: 11,
                 phone: '(62) 98221-1979',

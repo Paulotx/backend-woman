@@ -44,13 +44,13 @@ class Complaint {
     attacker: string;
 
     @Column()
-    identification: string | undefined;
+    identification: string;
 
     @Column()
     report: string;
 
     @Column()
-    note: string | undefined;
+    note: string;
 
     @Column()
     status: string;

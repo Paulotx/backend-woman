@@ -2,23 +2,18 @@ import AppError from '@shared/errors/AppError';
 import FakeUsersRepository from '../repositories/fakes/FakeUsersRepository';
 import FakeHashProvider from '../providers/HashProvider/fakes/FakeHashProvider';
 import AuthenticateUserService from './AuthenticateUserService';
-import CreateUsersService from './CreateUsersService';
 
 describe('AuthenticateUser', () => {
     it('should be able to authenticate', async () => {
         const fakeUsersRepository = new FakeUsersRepository();
         const fakeHashProvider = new FakeHashProvider();
 
-        const createUsers = new CreateUsersService(
-            fakeUsersRepository,
-            fakeHashProvider,
-        );
         const authenticateUser = new AuthenticateUserService(
             fakeUsersRepository,
             fakeHashProvider,
         );
 
-        const user = await createUsers.execute({
+        const user = await fakeUsersRepository.create({
             name: 'User Test',
             email: 'user@gmail.com',
             perfil: 'admin',
@@ -43,7 +38,7 @@ describe('AuthenticateUser', () => {
             fakeHashProvider,
         );
 
-        expect(
+        await expect(
             authenticateUser.execute({
                 email: 'user@gmail.com',
                 password: '123456',
@@ -55,23 +50,19 @@ describe('AuthenticateUser', () => {
         const fakeUsersRepository = new FakeUsersRepository();
         const fakeHashProvider = new FakeHashProvider();
 
-        const createUsers = new CreateUsersService(
-            fakeUsersRepository,
-            fakeHashProvider,
-        );
         const authenticateUser = new AuthenticateUserService(
             fakeUsersRepository,
             fakeHashProvider,
         );
 
-        await createUsers.execute({
+        await fakeUsersRepository.create({
             name: 'User Test',
             email: 'user@gmail.com',
             perfil: 'admin',
             password: '123456',
         });
 
-        expect(
+        await expect(
             authenticateUser.execute({
                 email: 'user@gmail.com',
                 password: 'wrong-password',
