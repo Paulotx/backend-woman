@@ -1,5 +1,7 @@
 import { container } from 'tsyringe';
 
+import '@modules/users/providers';
+
 import IComplaintsRepository from '@modules/complaints/repositories/IComplaintsRepository';
 import ComplaintsRepository from '@modules/complaints/infra/typeorm/repositories/ComplaintsRepository';
 
