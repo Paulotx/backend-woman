@@ -4,17 +4,20 @@ import FakeComplaintsRepository from '../repositories/fakes/FakeComplaintsReposi
 import CreateComplaintsService from './CreateComplaintsService';
 import UpdateComplaintService from './UpdateComplaintService';
 
+let fakeComplaintsRepository: FakeComplaintsRepository;
+let createComplaints: CreateComplaintsService;
+let updateComplaint: UpdateComplaintService;
+
 describe('UpdateComplaintService', () => {
+    beforeEach(() => {
+        fakeComplaintsRepository = new FakeComplaintsRepository();
+        createComplaints = new CreateComplaintsService(
+            fakeComplaintsRepository,
+        );
+        updateComplaint = new UpdateComplaintService(fakeComplaintsRepository);
+    });
+
     it('should be able to update a complaint', async () => {
-        const fakeComplaintsRepository = new FakeComplaintsRepository();
-
-        const createComplaints = new CreateComplaintsService(
-            fakeComplaintsRepository,
-        );
-        const updateComplaint = new UpdateComplaintService(
-            fakeComplaintsRepository,
-        );
-
         const complaint = await createComplaints.execute({
             victim: 'Maria José',
             cpf: '111.111.111-11',
@@ -54,15 +57,6 @@ describe('UpdateComplaintService', () => {
     });
 
     it('should information complaint not found', async () => {
-        const fakeComplaintsRepository = new FakeComplaintsRepository();
-
-        const createComplaints = new CreateComplaintsService(
-            fakeComplaintsRepository,
-        );
-        const updateComplaint = new UpdateComplaintService(
-            fakeComplaintsRepository,
-        );
-
         await createComplaints.execute({
             victim: 'Maria José',
             cpf: '111.111.111-11',

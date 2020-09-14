@@ -3,16 +3,22 @@ import FakeUsersRepository from '../repositories/fakes/FakeUsersRepository';
 import FakeHashProvider from '../providers/HashProvider/fakes/FakeHashProvider';
 import AuthenticateUserService from './AuthenticateUserService';
 
-describe('AuthenticateUser', () => {
-    it('should be able to authenticate', async () => {
-        const fakeUsersRepository = new FakeUsersRepository();
-        const fakeHashProvider = new FakeHashProvider();
+let fakeUsersRepository: FakeUsersRepository;
+let fakeHashProvider: FakeHashProvider;
+let authenticateUser: AuthenticateUserService;
 
-        const authenticateUser = new AuthenticateUserService(
+describe('AuthenticateUser', () => {
+    beforeEach(() => {
+        fakeUsersRepository = new FakeUsersRepository();
+        fakeHashProvider = new FakeHashProvider();
+
+        authenticateUser = new AuthenticateUserService(
             fakeUsersRepository,
             fakeHashProvider,
         );
+    });
 
+    it('should be able to authenticate', async () => {
         const user = await fakeUsersRepository.create({
             name: 'User Test',
             email: 'user@gmail.com',
@@ -30,14 +36,6 @@ describe('AuthenticateUser', () => {
     });
 
     it('should not be able to authenticate with non existing user', async () => {
-        const fakeUsersRepository = new FakeUsersRepository();
-        const fakeHashProvider = new FakeHashProvider();
-
-        const authenticateUser = new AuthenticateUserService(
-            fakeUsersRepository,
-            fakeHashProvider,
-        );
-
         await expect(
             authenticateUser.execute({
                 email: 'user@gmail.com',
@@ -47,14 +45,6 @@ describe('AuthenticateUser', () => {
     });
 
     it('should not be able to authenticate with wrong password', async () => {
-        const fakeUsersRepository = new FakeUsersRepository();
-        const fakeHashProvider = new FakeHashProvider();
-
-        const authenticateUser = new AuthenticateUserService(
-            fakeUsersRepository,
-            fakeHashProvider,
-        );
-
         await fakeUsersRepository.create({
             name: 'User Test',
             email: 'user@gmail.com',

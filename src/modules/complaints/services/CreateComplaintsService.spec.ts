@@ -1,13 +1,18 @@
 import FakeComplaintsRepository from '../repositories/fakes/FakeComplaintsRepository';
 import CreateComplaintsService from './CreateComplaintsService';
 
+let fakeComplaintsRepository: FakeComplaintsRepository;
+let createComplaints: CreateComplaintsService;
+
 describe('CreateComplaintsService', () => {
-    it('should be able to create a new complaint', async () => {
-        const fakeComplaintsRepository = new FakeComplaintsRepository();
-        const createComplaints = new CreateComplaintsService(
+    beforeEach(() => {
+        fakeComplaintsRepository = new FakeComplaintsRepository();
+        createComplaints = new CreateComplaintsService(
             fakeComplaintsRepository,
         );
+    });
 
+    it('should be able to create a new complaint', async () => {
         const complaint = await createComplaints.execute({
             victim: 'Maria José',
             cpf: '111.111.111-11',
