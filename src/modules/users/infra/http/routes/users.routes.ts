@@ -11,11 +11,7 @@ usersRouter.use(onlyAdmin);
 
 const usersController = new UsersController();
 
-// usersRouter.get('/', async (request, response) => {
-//     const users = await usersRepository.find();
-
-//     return response.json(users);
-// });
+usersRouter.get('/', usersController.index);
 
 usersRouter.post('/', usersController.create);
 
