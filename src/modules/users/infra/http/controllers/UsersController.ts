@@ -5,7 +5,7 @@ import CreateUserService from '@modules/users/services/CreateUserService';
 import UpdateUserService from '@modules/users/services/UpdateUserService';
 import DeleteUserService from '@modules/users/services/DeleteUserService';
 
-export default class UserssController {
+export default class UserController {
     public async create(
         request: Request,
         response: Response,

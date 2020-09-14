@@ -2,14 +2,14 @@ import { Router } from 'express';
 
 import ensureAuthenticate from '../middlewares/ensureAuthenticated';
 import onlyAdmin from '../middlewares/onlyAdmin';
-import UserssController from '../controllers/UsersController';
+import UsersController from '../controllers/UsersController';
 
 const usersRouter = Router();
 
 usersRouter.use(ensureAuthenticate);
 usersRouter.use(onlyAdmin);
 
-const usersController = new UserssController();
+const usersController = new UsersController();
 
 // usersRouter.get('/', async (request, response) => {
 //     const users = await usersRepository.find();
