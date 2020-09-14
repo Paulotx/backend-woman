@@ -1,9 +1,9 @@
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 
-import CreateUsersService from '@modules/users/services/CreateUsersService';
-import UpdateUsersService from '@modules/users/services/UpdateUsersService';
-import DeleteUsersService from '@modules/users/services/DeleteUsersService';
+import CreateUserService from '@modules/users/services/CreateUserService';
+import UpdateUserService from '@modules/users/services/UpdateUserService';
+import DeleteUserService from '@modules/users/services/DeleteUserService';
 
 export default class UserssController {
     public async create(
@@ -12,7 +12,7 @@ export default class UserssController {
     ): Promise<Response> {
         const { name, email, perfil, password } = request.body;
 
-        const createUser = container.resolve(CreateUsersService);
+        const createUser = container.resolve(CreateUserService);
 
         const user = await createUser.execute({
             name,
@@ -33,7 +33,7 @@ export default class UserssController {
         const { id } = request.params;
         const { name, email, perfil } = request.body;
 
-        const updateUser = container.resolve(UpdateUsersService);
+        const updateUser = container.resolve(UpdateUserService);
 
         const user = await updateUser.execute({
             id,
@@ -51,7 +51,7 @@ export default class UserssController {
     ): Promise<Response> {
         const { id } = request.params;
 
-        const deleteUser = container.resolve(DeleteUsersService);
+        const deleteUser = container.resolve(DeleteUserService);
 
         deleteUser.execute({ id });
 

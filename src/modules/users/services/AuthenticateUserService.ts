@@ -35,7 +35,7 @@ class AuthenticateUserService {
             throw new AppError('Incorrect email/password combination.', 401);
         }
 
-        const passwordMatched = await this.hashProvider.compareHesh(
+        const passwordMatched = await this.hashProvider.compareHash(
             password,
             user.password,
         );

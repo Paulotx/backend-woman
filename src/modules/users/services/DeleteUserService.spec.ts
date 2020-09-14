@@ -1,15 +1,15 @@
 import AppError from '@shared/errors/AppError';
 import FakeUsersRepository from '../repositories/fakes/FakeUsersRepository';
-import DeleteUsersService from './DeleteUsersService';
+import DeleteUserService from './DeleteUserService';
 
 let fakeUsersRepository: FakeUsersRepository;
-let deleteUsers: DeleteUsersService;
+let deleteUsers: DeleteUserService;
 
 describe('UpdateUsers', () => {
     beforeEach(() => {
         fakeUsersRepository = new FakeUsersRepository();
 
-        deleteUsers = new DeleteUsersService(fakeUsersRepository);
+        deleteUsers = new DeleteUserService(fakeUsersRepository);
     });
 
     it('should be able to delete a user', async () => {
