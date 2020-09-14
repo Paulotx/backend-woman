@@ -6,6 +6,10 @@ import Complaint from '../../infra/typeorm/entities/Complaint';
 class ComplaintsRepository implements IComplaintsRepository {
     private complaints: Complaint[] = [];
 
+    public async findAllComplaints(): Promise<Complaint[]> {
+        return this.complaints;
+    }
+
     public async findByCpf(cpf: string): Promise<Complaint | undefined> {
         const findComplaint = this.complaints.find(
             complaint => complaint.cpf === cpf,
@@ -14,7 +18,7 @@ class ComplaintsRepository implements IComplaintsRepository {
         return findComplaint;
     }
 
-    public async findOne(id: number): Promise<Complaint | undefined> {
+    public async findById(id: number): Promise<Complaint | undefined> {
         const findComplaint = this.complaints.find(
             complaint => complaint.id === id,
         );

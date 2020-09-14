@@ -20,7 +20,7 @@ interface IRequest {
 }
 
 @injectable()
-class CreateComplaintsService {
+class CreateComplaintService {
     constructor(
         @inject('ComplaintsRepository')
         private complaintsRepository: IComplaintsRepository,
@@ -48,4 +48,4 @@ class CreateComplaintsService {
     }
 }
 
-export default CreateComplaintsService;
+export default CreateComplaintService;

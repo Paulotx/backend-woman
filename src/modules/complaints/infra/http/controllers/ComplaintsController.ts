@@ -1,17 +1,26 @@
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 
-import CreateComplaintsService from '@modules/complaints/services/CreateComplaintsService';
+import CreateComplaintService from '@modules/complaints/services/CreateComplaintService';
 import UpdateComplaintService from '@modules/complaints/services/UpdateComplaintService';
+import ListComplaintsService from '@modules/complaints/services/ListComplaintsService';
 
 export default class ComplaintController {
+    public async index(reques: Request, response: Response): Promise<Response> {
+        const listComplaints = container.resolve(ListComplaintsService);
+
+        const users = await listComplaints.execute();
+
+        return response.json(users);
+    }
+
     public async create(
         request: Request,
         response: Response,
     ): Promise<Response> {
         const data = request.body;
 
-        const createComplaint = container.resolve(CreateComplaintsService);
+        const createComplaint = container.resolve(CreateComplaintService);
 
         const complaint = await createComplaint.execute({
             victim: data.victim,

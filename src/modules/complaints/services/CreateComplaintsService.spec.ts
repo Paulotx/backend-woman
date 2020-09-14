@@ -1,15 +1,13 @@
 import FakeComplaintsRepository from '../repositories/fakes/FakeComplaintsRepository';
-import CreateComplaintsService from './CreateComplaintsService';
+import CreateComplaintService from './CreateComplaintService';
 
 let fakeComplaintsRepository: FakeComplaintsRepository;
-let createComplaints: CreateComplaintsService;
+let createComplaints: CreateComplaintService;
 
-describe('CreateComplaintsService', () => {
+describe('CreateComplaintService', () => {
     beforeEach(() => {
         fakeComplaintsRepository = new FakeComplaintsRepository();
-        createComplaints = new CreateComplaintsService(
-            fakeComplaintsRepository,
-        );
+        createComplaints = new CreateComplaintService(fakeComplaintsRepository);
     });
 
     it('should be able to create a new complaint', async () => {

@@ -1,19 +1,17 @@
 import AppError from '@shared/errors/AppError';
 
 import FakeComplaintsRepository from '../repositories/fakes/FakeComplaintsRepository';
-import CreateComplaintsService from './CreateComplaintsService';
+import CreateComplaintService from './CreateComplaintService';
 import UpdateComplaintService from './UpdateComplaintService';
 
 let fakeComplaintsRepository: FakeComplaintsRepository;
-let createComplaints: CreateComplaintsService;
+let createComplaints: CreateComplaintService;
 let updateComplaint: UpdateComplaintService;
 
 describe('UpdateComplaintService', () => {
     beforeEach(() => {
         fakeComplaintsRepository = new FakeComplaintsRepository();
-        createComplaints = new CreateComplaintsService(
-            fakeComplaintsRepository,
-        );
+        createComplaints = new CreateComplaintService(fakeComplaintsRepository);
         updateComplaint = new UpdateComplaintService(fakeComplaintsRepository);
     });
 

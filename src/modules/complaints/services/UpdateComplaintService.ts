@@ -29,7 +29,7 @@ class UpdateComplaintService {
     ) {}
 
     public async execute(data: Request): Promise<Complaint> {
-        let complaint = await this.complaintsRepository.findOne(data.id);
+        let complaint = await this.complaintsRepository.findById(data.id);
 
         if (!complaint) {
             throw new AppError('Complaint not found!');
@@ -38,7 +38,7 @@ class UpdateComplaintService {
         complaint = {
             ...complaint,
             ...data,
-            updated_at: new Date(Date.now()),
+            updated_at: new Date(),
         };
 
         return this.complaintsRepository.save(complaint);

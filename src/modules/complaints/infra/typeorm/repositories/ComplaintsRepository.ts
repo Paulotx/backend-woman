@@ -12,6 +12,10 @@ class ComplaintsRepository implements IComplaintsRepository {
         this.ormRepository = getRepository(Complaint);
     }
 
+    public async findAllComplaints(): Promise<Complaint[]> {
+        return this.ormRepository.find();
+    }
+
     public async findByCpf(cpf: string): Promise<Complaint | undefined> {
         const findComplaint = await this.ormRepository.findOne({
             where: { cpf },
@@ -20,7 +24,7 @@ class ComplaintsRepository implements IComplaintsRepository {
         return findComplaint;
     }
 
-    public async findOne(id: number): Promise<Complaint | undefined> {
+    public async findById(id: number): Promise<Complaint | undefined> {
         const findComplaint = await this.ormRepository.findOne(id);
 
         return findComplaint;

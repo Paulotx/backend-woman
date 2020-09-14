@@ -10,6 +10,7 @@ const complaintsController = new ComplaintsController();
 
 complaintsRouter.use(ensureAuthenticate);
 
+complaintsRouter.get('/', onlyDelegateAndAdmin, complaintsController.index);
 complaintsRouter.post('/', complaintsController.create);
 complaintsRouter.put('/', onlyDelegateAndAdmin, complaintsController.update);
 

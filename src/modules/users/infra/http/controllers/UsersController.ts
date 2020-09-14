@@ -54,6 +54,8 @@ export default class UserController {
             perfil,
         });
 
+        delete user.password;
+
         return response.json(user);
     }
 
