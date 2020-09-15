@@ -1,17 +1,24 @@
 import AppError from '@shared/errors/AppError';
 
+import FakeNotificationsRepository from '@modules/notifications/repositories/fakes/FakeNotificationsRepository';
 import FakeComplaintsRepository from '../repositories/fakes/FakeComplaintsRepository';
 import CreateComplaintService from './CreateComplaintService';
 import UpdateComplaintService from './UpdateComplaintService';
 
 let fakeComplaintsRepository: FakeComplaintsRepository;
+let fakeNotificationsRepository: FakeNotificationsRepository;
 let createComplaints: CreateComplaintService;
 let updateComplaint: UpdateComplaintService;
 
 describe('UpdateComplaintService', () => {
     beforeEach(() => {
         fakeComplaintsRepository = new FakeComplaintsRepository();
-        createComplaints = new CreateComplaintService(fakeComplaintsRepository);
+        fakeNotificationsRepository = new FakeNotificationsRepository();
+
+        createComplaints = new CreateComplaintService(
+            fakeComplaintsRepository,
+            fakeNotificationsRepository,
+        );
         updateComplaint = new UpdateComplaintService(fakeComplaintsRepository);
     });
 

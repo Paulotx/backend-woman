@@ -1,13 +1,20 @@
+import FakeNotificationsRepository from '@modules/notifications/repositories/fakes/FakeNotificationsRepository';
 import FakeComplaintsRepository from '../repositories/fakes/FakeComplaintsRepository';
 import CreateComplaintService from './CreateComplaintService';
 
 let fakeComplaintsRepository: FakeComplaintsRepository;
+let fakeNotificationsRepository: FakeNotificationsRepository;
 let createComplaints: CreateComplaintService;
 
 describe('CreateComplaintService', () => {
     beforeEach(() => {
         fakeComplaintsRepository = new FakeComplaintsRepository();
-        createComplaints = new CreateComplaintService(fakeComplaintsRepository);
+        fakeNotificationsRepository = new FakeNotificationsRepository();
+
+        createComplaints = new CreateComplaintService(
+            fakeComplaintsRepository,
+            fakeNotificationsRepository,
+        );
     });
 
     it('should be able to create a new complaint', async () => {

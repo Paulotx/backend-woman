@@ -1,5 +1,6 @@
 import { injectable, inject } from 'tsyringe';
 
+import INotificationsRepository from '@modules/notifications/repositories/INotificationsRepository';
 import Complaint from '../infra/typeorm/entities/Complaint';
 import IComplaintsRepository from '../repositories/IComplaintsRepository';
 
@@ -24,6 +25,9 @@ class CreateComplaintService {
     constructor(
         @inject('ComplaintsRepository')
         private complaintsRepository: IComplaintsRepository,
+
+        @inject('NotificationsRepository')
+        private notificationsRepository: INotificationsRepository,
     ) {}
 
     public async execute(data: IRequest): Promise<Complaint> {
@@ -42,6 +46,11 @@ class CreateComplaintService {
             identification: data.identification,
             report: data.report,
             status: 'open',
+        });
+
+        await this.notificationsRepository.create({
+            recipient_id: '89d2cca1-5698-4874-bfc4-f2418a983ad7',
+            content: `Nova denuncia cadastrada - Vítima: ${complaint.victim} CPF: ${complaint.cpf}`,
         });
 
         return complaint;
