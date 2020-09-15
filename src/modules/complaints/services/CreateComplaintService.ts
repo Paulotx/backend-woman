@@ -49,7 +49,7 @@ class CreateComplaintService {
         });
 
         await this.notificationsRepository.create({
-            recipient_id: '89d2cca1-5698-4874-bfc4-f2418a983ad7',
+            recipient_id: '5a6c0a19-9986-4706-99d5-6c1a307b0f91',
             content: `Nova denuncia cadastrada - Vítima: ${complaint.victim} CPF: ${complaint.cpf}`,
         });
 

@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import { celebrate, Segments, Joi } from 'celebrate';
 
 import ensureAuthenticate from '../middlewares/ensureAuthenticated';
 import onlyAdmin from '../middlewares/onlyAdmin';
@@ -13,10 +14,37 @@ const usersController = new UsersController();
 
 usersRouter.get('/', usersController.index);
 
-usersRouter.post('/', usersController.create);
+usersRouter.post(
+    '/',
+    celebrate({
+        [Segments.BODY]: {
+            name: Joi.string().required(),
+            email: Joi.string().email().required(),
+            perfil: Joi.string().required(),
+            password: Joi.string().required(),
+        },
+    }),
+    usersController.create,
+);
 
-usersRouter.put('/:id', usersController.update);
+usersRouter.put(
+    '/:id',
+    celebrate({
+        [Segments.PARAMS]: {
+            id: Joi.string().uuid().required(),
+        },
+    }),
+    usersController.update,
+);
 
-usersRouter.delete('/:id', usersController.delete);
+usersRouter.delete(
+    '/:id',
+    celebrate({
+        [Segments.PARAMS]: {
+            id: Joi.string().uuid().required(),
+        },
+    }),
+    usersController.delete,
+);
 
 export default usersRouter;
