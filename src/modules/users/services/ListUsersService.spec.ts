@@ -1,14 +1,17 @@
+import FakeCacheProvider from '@shared/container/providers/CacheProvider/fakes/FakeCacheProvider';
 import FakeUsersRepository from '../repositories/fakes/FakeUsersRepository';
 import ListUsersService from './ListUsersService';
 
 let fakeUsersRepository: FakeUsersRepository;
+let fakeCacheProvder: FakeCacheProvider;
 let listUsers: ListUsersService;
 
 describe('UpdateProfile', () => {
     beforeEach(() => {
         fakeUsersRepository = new FakeUsersRepository();
+        fakeCacheProvder = new FakeCacheProvider();
 
-        listUsers = new ListUsersService(fakeUsersRepository);
+        listUsers = new ListUsersService(fakeUsersRepository, fakeCacheProvder);
     });
 
     it('should be able to list the users', async () => {

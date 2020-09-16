@@ -1,19 +1,23 @@
 import FakeNotificationsRepository from '@modules/notifications/repositories/fakes/FakeNotificationsRepository';
+import FakeCacheProvider from '@shared/container/providers/CacheProvider/fakes/FakeCacheProvider';
 import FakeComplaintsRepository from '../repositories/fakes/FakeComplaintsRepository';
 import CreateComplaintService from './CreateComplaintService';
 
 let fakeComplaintsRepository: FakeComplaintsRepository;
 let fakeNotificationsRepository: FakeNotificationsRepository;
+let fakeCacheProvider: FakeCacheProvider;
 let createComplaints: CreateComplaintService;
 
 describe('CreateComplaintService', () => {
     beforeEach(() => {
         fakeComplaintsRepository = new FakeComplaintsRepository();
         fakeNotificationsRepository = new FakeNotificationsRepository();
+        fakeCacheProvider = new FakeCacheProvider();
 
         createComplaints = new CreateComplaintService(
             fakeComplaintsRepository,
             fakeNotificationsRepository,
+            fakeCacheProvider,
         );
     });
 

@@ -1,29 +1,20 @@
 import AppError from '@shared/errors/AppError';
 
-import FakeNotificationsRepository from '@modules/notifications/repositories/fakes/FakeNotificationsRepository';
 import FakeComplaintsRepository from '../repositories/fakes/FakeComplaintsRepository';
-import CreateComplaintService from './CreateComplaintService';
 import UpdateComplaintService from './UpdateComplaintService';
 
 let fakeComplaintsRepository: FakeComplaintsRepository;
-let fakeNotificationsRepository: FakeNotificationsRepository;
-let createComplaints: CreateComplaintService;
 let updateComplaint: UpdateComplaintService;
 
 describe('UpdateComplaintService', () => {
     beforeEach(() => {
         fakeComplaintsRepository = new FakeComplaintsRepository();
-        fakeNotificationsRepository = new FakeNotificationsRepository();
 
-        createComplaints = new CreateComplaintService(
-            fakeComplaintsRepository,
-            fakeNotificationsRepository,
-        );
         updateComplaint = new UpdateComplaintService(fakeComplaintsRepository);
     });
 
     it('should be able to update a complaint', async () => {
-        const complaint = await createComplaints.execute({
+        const complaint = await fakeComplaintsRepository.create({
             victim: 'Maria José',
             cpf: '111.111.111-11',
             phone: '(62) 98221-1979',
@@ -37,6 +28,7 @@ describe('UpdateComplaintService', () => {
             attacker: 'Jack',
             identification: '333.333.333-33',
             report: 'Me bateu',
+            status: 'open',
         });
 
         const complaintUpdate = await updateComplaint.execute({
@@ -62,7 +54,7 @@ describe('UpdateComplaintService', () => {
     });
 
     it('should information complaint not found', async () => {
-        await createComplaints.execute({
+        await fakeComplaintsRepository.create({
             victim: 'Maria José',
             cpf: '111.111.111-11',
             phone: '(62) 98221-1979',
@@ -76,6 +68,7 @@ describe('UpdateComplaintService', () => {
             attacker: 'Jack',
             identification: '333.333.333-33',
             report: 'Me bateu',
+            status: 'open',
         });
 
         expect(
