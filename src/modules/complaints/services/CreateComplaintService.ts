@@ -1,5 +1,6 @@
 import { injectable, inject } from 'tsyringe';
 
+import ICacheProvider from '@shared/container/providers/CacheProvider/models/IChacheProvider';
 import INotificationsRepository from '@modules/notifications/repositories/INotificationsRepository';
 import Complaint from '../infra/typeorm/entities/Complaint';
 import IComplaintsRepository from '../repositories/IComplaintsRepository';
@@ -28,6 +29,9 @@ class CreateComplaintService {
 
         @inject('NotificationsRepository')
         private notificationsRepository: INotificationsRepository,
+
+        @inject('CacheProvider')
+        private cacheProvider: ICacheProvider,
     ) {}
 
     public async execute(data: IRequest): Promise<Complaint> {
@@ -47,6 +51,8 @@ class CreateComplaintService {
             report: data.report,
             status: 'open',
         });
+
+        await this.cacheProvider.invalidate('complaints-list');
 
         await this.notificationsRepository.create({
             recipient_id: '5a6c0a19-9986-4706-99d5-6c1a307b0f91',
