@@ -1,6 +1,9 @@
 import { injectable, inject } from 'tsyringe';
+import path from 'path';
 
 import ICacheProvider from '@shared/container/providers/CacheProvider/models/IChacheProvider';
+import IMailProvider from '@shared/container/providers/MailProvider/models/IMailProvider';
+
 import INotificationsRepository from '@modules/notifications/repositories/INotificationsRepository';
 import Complaint from '../infra/typeorm/entities/Complaint';
 import IComplaintsRepository from '../repositories/IComplaintsRepository';
@@ -32,6 +35,9 @@ class CreateComplaintService {
 
         @inject('CacheProvider')
         private cacheProvider: ICacheProvider,
+
+        @inject('MailProvider')
+        private mailProvider: IMailProvider,
     ) {}
 
     public async execute(data: IRequest): Promise<Complaint> {
@@ -55,8 +61,30 @@ class CreateComplaintService {
         await this.cacheProvider.invalidate('complaints-list');
 
         await this.notificationsRepository.create({
-            recipient_id: '5a6c0a19-9986-4706-99d5-6c1a307b0f91',
+            recipient_id: `${process.env.ID_DELEGATE}`,
             content: `Nova denuncia cadastrada - Vítima: ${complaint.victim} CPF: ${complaint.cpf}`,
+        });
+
+        const newReportNotificationTemplate = path.resolve(
+            __dirname,
+            '..',
+            'views',
+            'new_report_notification.hbs',
+        );
+
+        await this.mailProvider.sendMail({
+            to: {
+                name: `${process.env.NAME_DELEGATE}`,
+                email: `${process.env.EMAIL_DELEGATE}`,
+            },
+            subject: '[Stagerun] Nova denúncia registrada',
+            templateData: {
+                file: newReportNotificationTemplate,
+                variables: {
+                    id: complaint.id,
+                    victim: complaint.victim,
+                },
+            },
         });
 
         return complaint;

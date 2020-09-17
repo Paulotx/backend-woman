@@ -65,7 +65,7 @@ class CreateUserService {
                 name: user.name,
                 email: user.email,
             },
-            subject: '[Stagerun] Recuperação de senha',
+            subject: '[Stagerun] Novo usuário',
             templateData: {
                 file: sendPasswordTemplate,
                 variables: {
