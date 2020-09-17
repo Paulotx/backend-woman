@@ -21,7 +21,7 @@ export default class ProfileController {
         response: Response,
     ): Promise<Response> {
         const { id } = request.user;
-        const { name, email, perfil, old_password, password } = request.body;
+        const { name, email, old_password, password } = request.body;
 
         const updateProfile = container.resolve(UpdateProfileService);
 
@@ -29,7 +29,6 @@ export default class ProfileController {
             id,
             name,
             email,
-            perfil,
             old_password,
             password,
         });

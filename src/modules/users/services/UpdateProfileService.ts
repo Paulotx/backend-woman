@@ -10,7 +10,6 @@ interface IRequest {
     id: string;
     name: string;
     email: string;
-    perfil: string;
     old_password?: string;
     password?: string;
 }
@@ -29,7 +28,6 @@ class UpdateUserService {
         id,
         name,
         email,
-        perfil,
         old_password,
         password,
     }: IRequest): Promise<User> {
@@ -47,7 +45,6 @@ class UpdateUserService {
 
         user.name = name;
         user.email = email;
-        user.perfil = perfil;
         user.updated_at = new Date();
 
         if (password && !old_password) {

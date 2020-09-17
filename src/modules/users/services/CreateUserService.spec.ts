@@ -1,6 +1,7 @@
 import AppError from '@shared/errors/AppError';
 
 import FakeCacheProvider from '@shared/container/providers/CacheProvider/fakes/FakeCacheProvider';
+import FakeMailProvider from '@shared/container/providers/MailProvider/fakes/FakeMailProvider';
 import FakeUsersRepository from '../repositories/fakes/FakeUsersRepository';
 import FakeHashProvider from '../providers/HashProvider/fakes/FakeHashProvider';
 import CreateUserService from './CreateUserService';
@@ -8,6 +9,7 @@ import CreateUserService from './CreateUserService';
 let fakeUsersRepository: FakeUsersRepository;
 let fakeHashProvider: FakeHashProvider;
 let fakeCacheProvider: FakeCacheProvider;
+let fakeMailProvider: FakeMailProvider;
 let createUsers: CreateUserService;
 
 describe('CreateUsers', () => {
@@ -15,10 +17,12 @@ describe('CreateUsers', () => {
         fakeUsersRepository = new FakeUsersRepository();
         fakeHashProvider = new FakeHashProvider();
         fakeCacheProvider = new FakeCacheProvider();
+        fakeMailProvider = new FakeMailProvider();
 
         createUsers = new CreateUserService(
             fakeUsersRepository,
             fakeHashProvider,
+            fakeMailProvider,
             fakeCacheProvider,
         );
     });
@@ -28,7 +32,6 @@ describe('CreateUsers', () => {
             name: 'User Test',
             email: 'user@gmail.com',
             perfil: 'admin',
-            password: '123456',
         });
 
         expect(user).toHaveProperty('id');
@@ -39,7 +42,6 @@ describe('CreateUsers', () => {
             name: 'User Test',
             email: 'user@gmail.com',
             perfil: 'admin',
-            password: '123456',
         });
 
         await expect(
@@ -47,7 +49,6 @@ describe('CreateUsers', () => {
                 name: 'User Test',
                 email: 'user@gmail.com',
                 perfil: 'admin',
-                password: '123456',
             }),
         ).rejects.toBeInstanceOf(AppError);
     });

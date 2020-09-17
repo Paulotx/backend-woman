@@ -31,7 +31,6 @@ describe('UpdateProfile', () => {
             id: user.id,
             name: 'User Test',
             email: 'userteste@gmail.com',
-            perfil: 'admin',
         });
 
         expect(updateUser.email).toBe('userteste@gmail.com');
@@ -43,7 +42,6 @@ describe('UpdateProfile', () => {
                 id: 'non-existing-user-id',
                 name: 'User Test',
                 email: 'userteste@gmail.com',
-                perfil: 'admin',
             }),
         ).rejects.toBeInstanceOf(AppError);
     });
@@ -68,7 +66,6 @@ describe('UpdateProfile', () => {
                 id: user.id,
                 name: 'User 2',
                 email: 'user@gmail.com',
-                perfil: 'admin',
             }),
         ).rejects.toBeInstanceOf(AppError);
     });
@@ -85,7 +82,6 @@ describe('UpdateProfile', () => {
             id: user.id,
             name: 'User Test',
             email: 'userteste@gmail.com',
-            perfil: 'admin',
             old_password: '123456',
             password: '123123',
         });
@@ -106,7 +102,6 @@ describe('UpdateProfile', () => {
                 id: user.id,
                 name: 'User Test',
                 email: 'userteste@gmail.com',
-                perfil: 'admin',
                 password: '123132',
             }),
         ).rejects.toBeInstanceOf(AppError);
@@ -125,7 +120,6 @@ describe('UpdateProfile', () => {
                 id: user.id,
                 name: 'User Test',
                 email: 'userteste@gmail.com',
-                perfil: 'admin',
                 old_password: 'wrong-old-password',
                 password: '123132',
             }),
