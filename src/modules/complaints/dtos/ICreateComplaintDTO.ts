@@ -13,4 +13,5 @@ export default interface ICreateComplaintDTO {
     identification?: string;
     report: string;
     status: string;
+    region_id: string;
 }

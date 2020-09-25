@@ -1,6 +1,6 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
-export default class CreateComplaints1599010781018
+export default class CreateComplaints1601048217777
     implements MigrationInterface {
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.createTable(
@@ -79,6 +79,10 @@ export default class CreateComplaints1599010781018
                         isNullable: true,
                     },
                     {
+                        name: 'region_id',
+                        type: 'varchar',
+                    },
+                    {
                         name: 'created_at',
                         type: 'timestamp with time zone',
                         default: 'now()',
@@ -87,6 +91,16 @@ export default class CreateComplaints1599010781018
                         name: 'updated_at',
                         type: 'timestamp with time zone',
                         default: 'now()',
+                    },
+                ],
+                foreignKeys: [
+                    {
+                        name: 'Region',
+                        referencedTableName: 'regions',
+                        referencedColumnNames: ['id'],
+                        columnNames: ['region_id'],
+                        onDelete: 'CASCADE',
+                        onUpdate: 'CASCADE',
                     },
                 ],
             }),

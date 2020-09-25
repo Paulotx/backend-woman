@@ -3,7 +3,11 @@ import {
     Column,
     PrimaryGeneratedColumn,
     CreateDateColumn,
+    ManyToOne,
+    JoinColumn,
 } from 'typeorm';
+
+import Region from '@modules/regions/infra/typeorm/entities/Region';
 
 @Entity('complaints')
 class Complaint {
@@ -54,6 +58,13 @@ class Complaint {
 
     @Column()
     status: string;
+
+    @ManyToOne(() => Region, { eager: true })
+    @JoinColumn({ name: 'region_id' })
+    region: Region;
+
+    @Column()
+    region_id: string;
 
     @CreateDateColumn()
     created_at: Date;

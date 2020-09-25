@@ -22,6 +22,7 @@ interface IRequest {
     attacker: string;
     identification?: string;
     report: string;
+    region_id: string;
 }
 
 @injectable()
@@ -41,6 +42,7 @@ class CreateComplaintService {
     ) {}
 
     public async execute(data: IRequest): Promise<Complaint> {
+        console.log(data.region_id);
         const complaint = await this.complaintsRepository.create({
             victim: data.victim,
             cpf: data.cpf,
@@ -56,6 +58,7 @@ class CreateComplaintService {
             identification: data.identification,
             report: data.report,
             status: 'open',
+            region_id: data.region_id,
         });
 
         await this.cacheProvider.invalidate('complaints-list');

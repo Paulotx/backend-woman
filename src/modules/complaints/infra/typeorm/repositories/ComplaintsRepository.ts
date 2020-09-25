@@ -46,6 +46,7 @@ class ComplaintsRepository implements IComplaintsRepository {
             identification: data.identification,
             report: data.report,
             status: data.status,
+            region_id: data.region_id,
         });
 
         await this.ormRepository.save(complaint);

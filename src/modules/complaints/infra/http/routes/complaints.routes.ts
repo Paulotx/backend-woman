@@ -29,6 +29,7 @@ complaintsRouter.post(
             attacker: Joi.string().required(),
             identification: Joi.string().optional(),
             report: Joi.string().required(),
+            region_id: Joi.string().required(),
         },
     }),
     complaintsController.create,

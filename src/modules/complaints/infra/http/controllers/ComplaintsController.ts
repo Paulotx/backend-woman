@@ -36,6 +36,7 @@ export default class ComplaintController {
             attacker: data.attacker,
             identification: data.identification,
             report: data.report,
+            region_id: data.region_id,
         });
 
         return response.json(complaint);
