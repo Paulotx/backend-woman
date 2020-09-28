@@ -42,7 +42,6 @@ class CreateComplaintService {
     ) {}
 
     public async execute(data: IRequest): Promise<Complaint> {
-        console.log(data.region_id);
         const complaint = await this.complaintsRepository.create({
             victim: data.victim,
             cpf: data.cpf,

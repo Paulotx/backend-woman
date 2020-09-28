@@ -33,6 +33,7 @@ describe('ListComplaintsService', () => {
             identification: '333.333.333-33',
             report: 'Me bateu',
             status: 'open',
+            region_id: 'Id999',
         });
 
         await fakeComplaintsRepository.create({
@@ -50,6 +51,7 @@ describe('ListComplaintsService', () => {
             identification: '333.333.333-33',
             report: 'Me bateu',
             status: 'open',
+            region_id: 'Id999',
         });
 
         const complaints = listComplaints.execute();

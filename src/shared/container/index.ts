@@ -15,6 +15,12 @@ import UserTokensRepository from '@modules/users/infra/typeorm/repositories/User
 import INotificationsRepository from '@modules/notifications/repositories/INotificationsRepository';
 import NotificationsRepository from '@modules/notifications/infra/typeorm/repositories/NotificationsRepository';
 
+import IRegionsRepository from '@modules/regions/repositories/IRegionsRepository';
+import RegionsRepository from '@modules/regions/infra/typeorm/repositories/RegionRepository';
+
+import ILinkUserRegionRepository from '@modules/regions/repositories/ILinkUserRegionRepository';
+import LinkUserRegionRepository from '@modules/regions/infra/typeorm/repositories/LinkUserRegionRepository';
+
 container.registerSingleton<IComplaintsRepository>(
     'ComplaintsRepository',
     ComplaintsRepository,
@@ -33,4 +39,14 @@ container.registerSingleton<IUserTokensRepository>(
 container.registerSingleton<INotificationsRepository>(
     'NotificationsRepository',
     NotificationsRepository,
+);
+
+container.registerSingleton<IRegionsRepository>(
+    'RegionsRepository',
+    RegionsRepository,
+);
+
+container.registerSingleton<ILinkUserRegionRepository>(
+    'LinkUserRegionRepository',
+    LinkUserRegionRepository,
 );

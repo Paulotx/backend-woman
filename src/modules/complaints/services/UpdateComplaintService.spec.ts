@@ -29,6 +29,7 @@ describe('UpdateComplaintService', () => {
             identification: '333.333.333-33',
             report: 'Me bateu',
             status: 'open',
+            region_id: 'Id999',
         });
 
         const complaintUpdate = await updateComplaint.execute({
@@ -69,6 +70,7 @@ describe('UpdateComplaintService', () => {
             identification: '333.333.333-33',
             report: 'Me bateu',
             status: 'open',
+            region_id: 'Id999',
         });
 
         expect(

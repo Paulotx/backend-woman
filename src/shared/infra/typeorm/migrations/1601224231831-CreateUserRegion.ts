@@ -1,28 +1,21 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
-export default class CreateUSerTokens1599878717982
+export default class CreateUserRegion1601224231831
     implements MigrationInterface {
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.createTable(
             new Table({
-                name: 'user_tokens',
+                name: 'user_region',
                 columns: [
-                    {
-                        name: 'id',
-                        type: 'varchar',
-                        isPrimary: true,
-                        generationStrategy: 'uuid',
-                        default: 'uuid_generate_v4()',
-                    },
-                    {
-                        name: 'token',
-                        type: 'varchar',
-                        generationStrategy: 'uuid',
-                        default: 'uuid_generate_v4()',
-                    },
                     {
                         name: 'user_id',
                         type: 'varchar',
+                        isPrimary: true,
+                    },
+                    {
+                        name: 'region_id',
+                        type: 'varchar',
+                        isPrimary: true,
                     },
                     {
                         name: 'created_at',
@@ -37,10 +30,18 @@ export default class CreateUSerTokens1599878717982
                 ],
                 foreignKeys: [
                     {
-                        name: 'TokenUser',
+                        name: 'User',
                         referencedTableName: 'users',
                         referencedColumnNames: ['id'],
                         columnNames: ['user_id'],
+                        onDelete: 'CASCADE',
+                        onUpdate: 'CASCADE',
+                    },
+                    {
+                        name: 'Region',
+                        referencedTableName: 'regions',
+                        referencedColumnNames: ['id'],
+                        columnNames: ['region_id'],
                         onDelete: 'CASCADE',
                         onUpdate: 'CASCADE',
                     },
@@ -50,6 +51,6 @@ export default class CreateUSerTokens1599878717982
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.dropTable('user_tokens');
+        await queryRunner.dropTable('user_region');
     }
 }

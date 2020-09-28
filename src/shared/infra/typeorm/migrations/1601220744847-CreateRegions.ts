@@ -1,6 +1,6 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
-export default class CreateRegions1600915882055 implements MigrationInterface {
+export default class CreateRegions1601220744847 implements MigrationInterface {
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.createTable(
             new Table({
@@ -12,18 +12,27 @@ export default class CreateRegions1600915882055 implements MigrationInterface {
                         isPrimary: true,
                         generationStrategy: 'uuid',
                         default: 'uuid_generate_v4()',
+                        isNullable: false,
                     },
                     {
-                        name: 'region',
+                        name: 'name',
                         type: 'varchar',
+                        isNullable: false,
                     },
                     {
                         name: 'city',
                         type: 'varchar',
+                        isNullable: false,
                     },
                     {
                         name: 'uf',
                         type: 'varchar(2)',
+                        isNullable: false,
+                    },
+                    {
+                        name: 'responsible',
+                        type: 'varchar',
+                        isNullable: false,
                     },
                     {
                         name: 'created_at',

@@ -1,11 +1,13 @@
 import FakeNotificationsRepository from '@modules/notifications/repositories/fakes/FakeNotificationsRepository';
 import FakeCacheProvider from '@shared/container/providers/CacheProvider/fakes/FakeCacheProvider';
+import FakeMailProvider from '@shared/container/providers/MailProvider/fakes/FakeMailProvider';
 import FakeComplaintsRepository from '../repositories/fakes/FakeComplaintsRepository';
 import CreateComplaintService from './CreateComplaintService';
 
 let fakeComplaintsRepository: FakeComplaintsRepository;
 let fakeNotificationsRepository: FakeNotificationsRepository;
 let fakeCacheProvider: FakeCacheProvider;
+let fakeMailProvider: FakeMailProvider;
 let createComplaints: CreateComplaintService;
 
 describe('CreateComplaintService', () => {
@@ -13,11 +15,13 @@ describe('CreateComplaintService', () => {
         fakeComplaintsRepository = new FakeComplaintsRepository();
         fakeNotificationsRepository = new FakeNotificationsRepository();
         fakeCacheProvider = new FakeCacheProvider();
+        fakeMailProvider = new FakeMailProvider();
 
         createComplaints = new CreateComplaintService(
             fakeComplaintsRepository,
             fakeNotificationsRepository,
             fakeCacheProvider,
+            fakeMailProvider,
         );
     });
 
@@ -36,6 +40,7 @@ describe('CreateComplaintService', () => {
             attacker: 'Jack',
             identification: '333.333.333-33',
             report: 'Me bateu',
+            region_id: 'Id99999',
         });
 
         expect(complaint).toHaveProperty('id');
