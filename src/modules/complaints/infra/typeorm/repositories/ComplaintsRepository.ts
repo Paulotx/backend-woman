@@ -3,6 +3,7 @@ import { getRepository, Repository } from 'typeorm';
 import IComplaintsRepository from '@modules/complaints/repositories/IComplaintsRepository';
 import ICreateComplaintDTO from '@modules/complaints/dtos/ICreateComplaintDTO';
 
+import IFindWithParamsDTO from '@modules/complaints/dtos/IFindWithParamsDTO';
 import Complaint from '../entities/Complaint';
 
 class ComplaintsRepository implements IComplaintsRepository {
@@ -12,12 +13,16 @@ class ComplaintsRepository implements IComplaintsRepository {
         this.ormRepository = getRepository(Complaint);
     }
 
-    public async findAllComplaints(): Promise<Complaint[]> {
-        return this.ormRepository.find();
+    public async findAllComplaints(
+        data: IFindWithParamsDTO[],
+    ): Promise<Complaint[]> {
+        return this.ormRepository.find({
+            where: data,
+        });
     }
 
-    public async findByCpf(cpf: string): Promise<Complaint | undefined> {
-        const findComplaint = await this.ormRepository.findOne({
+    public async findByCpf(cpf: string): Promise<Complaint[]> {
+        const findComplaint = await this.ormRepository.find({
             where: { cpf },
         });
 
@@ -28,6 +33,16 @@ class ComplaintsRepository implements IComplaintsRepository {
         const findComplaint = await this.ormRepository.findOne(id);
 
         return findComplaint;
+    }
+
+    public async findByRegion(region_id: string): Promise<Complaint[]> {
+        const findComplaints = await this.ormRepository.find({
+            where: {
+                region_id,
+            },
+        });
+
+        return findComplaints;
     }
 
     public async create(data: ICreateComplaintDTO): Promise<Complaint> {

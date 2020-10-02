@@ -59,7 +59,7 @@ class Complaint {
     @Column()
     status: string;
 
-    @ManyToOne(() => Region, { eager: true })
+    @ManyToOne(() => Region)
     @JoinColumn({ name: 'region_id' })
     region: Region;
 

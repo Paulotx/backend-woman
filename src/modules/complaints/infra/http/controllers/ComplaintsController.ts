@@ -6,12 +6,49 @@ import UpdateComplaintService from '@modules/complaints/services/UpdateComplaint
 import ListComplaintsService from '@modules/complaints/services/ListComplaintsService';
 
 export default class ComplaintController {
-    public async index(reques: Request, response: Response): Promise<Response> {
+    public async index(
+        request: Request,
+        response: Response,
+    ): Promise<Response> {
+        const { id, victim, cpf, region_id } = request.query;
+
+        console.log(id, victim, cpf, region_id);
+
+        let params = {};
+
+        if (id) {
+            params = {
+                ...params,
+                id,
+            };
+        }
+
+        if (victim) {
+            params = {
+                ...params,
+                victim,
+            };
+        }
+
+        if (cpf) {
+            params = {
+                ...params,
+                cpf,
+            };
+        }
+
+        if (region_id) {
+            params = {
+                ...params,
+                region_id,
+            };
+        }
+
         const listComplaints = container.resolve(ListComplaintsService);
 
-        const users = await listComplaints.execute();
+        const complaints = await listComplaints.execute(params);
 
-        return response.json(users);
+        return response.json(complaints);
     }
 
     public async create(

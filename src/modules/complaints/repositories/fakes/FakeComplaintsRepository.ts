@@ -10,8 +10,8 @@ class ComplaintsRepository implements IComplaintsRepository {
         return this.complaints;
     }
 
-    public async findByCpf(cpf: string): Promise<Complaint | undefined> {
-        const findComplaint = this.complaints.find(
+    public async findByCpf(cpf: string): Promise<Complaint[]> {
+        const findComplaint = this.complaints.filter(
             complaint => complaint.cpf === cpf,
         );
 
@@ -21,6 +21,14 @@ class ComplaintsRepository implements IComplaintsRepository {
     public async findById(id: number): Promise<Complaint | undefined> {
         const findComplaint = this.complaints.find(
             complaint => complaint.id === id,
+        );
+
+        return findComplaint;
+    }
+
+    public async findByRegion(region_id: string): Promise<Complaint[]> {
+        const findComplaint = this.complaints.filter(
+            complaint => complaint.region_id === region_id,
         );
 
         return findComplaint;

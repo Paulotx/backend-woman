@@ -5,12 +5,12 @@ import {
     CreateDateColumn,
     UpdateDateColumn,
     OneToMany,
-    // ManyToMany,
-    // JoinTable,
+    ManyToMany,
+    JoinTable,
 } from 'typeorm';
 
 import Complaint from '@modules/complaints/infra/typeorm/entities/Complaint';
-// import User from '@modules/users/infra/typeorm/entities/User';
+import User from '@modules/users/infra/typeorm/entities/User';
 
 @Entity('regions')
 class Region {
@@ -32,9 +32,9 @@ class Region {
     @OneToMany(() => Complaint, complaints => complaints.region)
     complaints: Complaint[];
 
-    // @ManyToMany(() => User, user => user.regions)
-    // @JoinTable({ name: 'users' })
-    // users: User[];
+    @ManyToMany(() => User, user => user.regions)
+    @JoinTable()
+    users: User[];
 
     @CreateDateColumn()
     created_at: Date;
