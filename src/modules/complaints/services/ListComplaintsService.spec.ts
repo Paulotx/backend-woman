@@ -1,20 +1,14 @@
-import FakeCacheProvider from '@shared/container/providers/CacheProvider/fakes/FakeCacheProvider';
 import FakeComplaintsRepository from '../repositories/fakes/FakeComplaintsRepository';
 import ListComplaintsService from './ListComplaintsService';
 
 let fakeComplaintsRepository: FakeComplaintsRepository;
-let fakeCacheProvider: FakeCacheProvider;
 let listComplaints: ListComplaintsService;
 
 describe('ListComplaintsService', () => {
     beforeEach(() => {
         fakeComplaintsRepository = new FakeComplaintsRepository();
-        fakeCacheProvider = new FakeCacheProvider();
 
-        listComplaints = new ListComplaintsService(
-            fakeComplaintsRepository,
-            fakeCacheProvider,
-        );
+        listComplaints = new ListComplaintsService(fakeComplaintsRepository);
     });
 
     it('should be able to list the complaints', async () => {

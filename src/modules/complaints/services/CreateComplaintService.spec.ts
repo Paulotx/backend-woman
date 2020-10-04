@@ -6,7 +6,6 @@ import CreateComplaintService from './CreateComplaintService';
 
 let fakeComplaintsRepository: FakeComplaintsRepository;
 let fakeNotificationsRepository: FakeNotificationsRepository;
-let fakeCacheProvider: FakeCacheProvider;
 let fakeMailProvider: FakeMailProvider;
 let createComplaints: CreateComplaintService;
 
@@ -14,13 +13,11 @@ describe('CreateComplaintService', () => {
     beforeEach(() => {
         fakeComplaintsRepository = new FakeComplaintsRepository();
         fakeNotificationsRepository = new FakeNotificationsRepository();
-        fakeCacheProvider = new FakeCacheProvider();
         fakeMailProvider = new FakeMailProvider();
 
         createComplaints = new CreateComplaintService(
             fakeComplaintsRepository,
             fakeNotificationsRepository,
-            fakeCacheProvider,
             fakeMailProvider,
         );
     });

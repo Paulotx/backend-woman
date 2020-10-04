@@ -43,8 +43,6 @@ export default class ComplaintController {
             };
         }
 
-        console.log(params);
-
         const listComplaints = container.resolve(ListComplaintsService);
 
         const complaints = await listComplaints.execute(params);

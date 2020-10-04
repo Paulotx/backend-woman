@@ -1,7 +1,6 @@
 import { injectable, inject } from 'tsyringe';
 import path from 'path';
 
-import ICacheProvider from '@shared/container/providers/CacheProvider/models/IChacheProvider';
 import IMailProvider from '@shared/container/providers/MailProvider/models/IMailProvider';
 
 import INotificationsRepository from '@modules/notifications/repositories/INotificationsRepository';
@@ -34,9 +33,6 @@ class CreateComplaintService {
         @inject('NotificationsRepository')
         private notificationsRepository: INotificationsRepository,
 
-        @inject('CacheProvider')
-        private cacheProvider: ICacheProvider,
-
         @inject('MailProvider')
         private mailProvider: IMailProvider,
     ) {}
@@ -59,8 +55,6 @@ class CreateComplaintService {
             status: 'open',
             region_id: data.region_id,
         });
-
-        await this.cacheProvider.invalidate('complaints-list');
 
         await this.notificationsRepository.create({
             recipient_id: `${process.env.ID_DELEGATE}`,
