@@ -1,16 +1,16 @@
 import AppError from '@shared/errors/AppError';
-import FakeLinkUserRepository from '../repositories/fakes/FakeUserRepository';
+import FakeUserRegionRepository from '../repositories/fakes/FakeUserRegionRepository';
 
 import LinkUserRegionService from './LinkUserRegionService';
 
-let fakeLinkUserRepository: FakeLinkUserRepository;
+let fakeUserRegionRepository: FakeUserRegionRepository;
 let linkUserRegion: LinkUserRegionService;
 
 describe('CreateRegionService', () => {
     beforeEach(() => {
-        fakeLinkUserRepository = new FakeLinkUserRepository();
+        fakeUserRegionRepository = new FakeUserRegionRepository();
 
-        linkUserRegion = new LinkUserRegionService(fakeLinkUserRepository);
+        linkUserRegion = new LinkUserRegionService(fakeUserRegionRepository);
     });
 
     it('should be able to create a new link user to region', async () => {

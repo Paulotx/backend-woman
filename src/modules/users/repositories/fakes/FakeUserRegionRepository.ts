@@ -1,9 +1,9 @@
 import ICreateLinkUserRegionDTO from '@modules/users/dtos/ICreateLinkUserRegionDTO';
-import ILinkUserRegionRepository from '../IUserRegionRepository';
+import IUserRegionRepository from '../IUserRegionRepository';
 
 import UserRegion from '../../infra/typeorm/entities/UserRegion';
 
-class FakeLinkUserRegionRepository implements ILinkUserRegionRepository {
+class FakeUserRegionRepository implements IUserRegionRepository {
     private userRegions: UserRegion[] = [];
 
     public async create({
@@ -41,4 +41,4 @@ class FakeLinkUserRegionRepository implements ILinkUserRegionRepository {
     }
 }
 
-export default FakeLinkUserRegionRepository;
+export default FakeUserRegionRepository;

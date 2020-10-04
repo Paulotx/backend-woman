@@ -40,7 +40,7 @@ class AuthenticateUserService {
         }
 
         const userRegions = await this.userRegionRepository.findRegionByUser(
-            user?.id,
+            user.id,
         );
 
         if (!userRegions) {

@@ -21,7 +21,10 @@ class ListComplaintsService {
         let query = 'SELECT * FROM complaints WHERE (';
 
         if (data.region_id) {
-            if (data.region_id.length === 1) {
+            if (
+                data.region_id.length === 1 ||
+                typeof data.region_id === 'string'
+            ) {
                 query += `region_id = '${data.region_id}')`;
             } else if (typeof data.region_id === 'object') {
                 data.region_id.forEach(item => {
