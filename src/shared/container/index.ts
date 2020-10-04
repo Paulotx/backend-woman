@@ -18,8 +18,8 @@ import NotificationsRepository from '@modules/notifications/infra/typeorm/reposi
 import IRegionsRepository from '@modules/regions/repositories/IRegionsRepository';
 import RegionsRepository from '@modules/regions/infra/typeorm/repositories/RegionRepository';
 
-import ILinkUserRegionRepository from '@modules/regions/repositories/ILinkUserRegionRepository';
-import LinkUserRegionRepository from '@modules/regions/infra/typeorm/repositories/LinkUserRegionRepository';
+import IUserRegionRepository from '@modules/users/repositories/IUserRegionRepository';
+import UserRegionRepository from '@modules/users/infra/typeorm/repositories/UserRegionRepository';
 
 container.registerSingleton<IComplaintsRepository>(
     'ComplaintsRepository',
@@ -46,7 +46,7 @@ container.registerSingleton<IRegionsRepository>(
     RegionsRepository,
 );
 
-container.registerSingleton<ILinkUserRegionRepository>(
-    'LinkUserRegionRepository',
-    LinkUserRegionRepository,
+container.registerSingleton<IUserRegionRepository>(
+    'UserRegionRepository',
+    UserRegionRepository,
 );

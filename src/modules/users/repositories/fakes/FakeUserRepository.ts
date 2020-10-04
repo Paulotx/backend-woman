@@ -1,5 +1,5 @@
-import ICreateLinkUserRegionDTO from '@modules/regions/dtos/ICreateLinkUserRegionDTO';
-import ILinkUserRegionRepository from '../ILinkUserRegionRepository';
+import ICreateLinkUserRegionDTO from '@modules/users/dtos/ICreateLinkUserRegionDTO';
+import ILinkUserRegionRepository from '../IUserRegionRepository';
 
 import UserRegion from '../../infra/typeorm/entities/UserRegion';
 
@@ -17,7 +17,7 @@ class FakeLinkUserRegionRepository implements ILinkUserRegionRepository {
         this.userRegions.push(userRegion);
     }
 
-    public async findByUserIDAndRegionId({
+    public async findByUserIdAndRegionId({
         user_id,
         region_id,
     }: ICreateLinkUserRegionDTO): Promise<UserRegion | undefined> {
@@ -25,6 +25,16 @@ class FakeLinkUserRegionRepository implements ILinkUserRegionRepository {
             userRegion =>
                 userRegion.user_id === user_id &&
                 userRegion.region_id === region_id,
+        );
+
+        return findUserRegion;
+    }
+
+    public async findRegionByUser(
+        user_id: string,
+    ): Promise<UserRegion[] | undefined> {
+        const findUserRegion = this.userRegions.filter(
+            userRegion => userRegion.user_id === user_id,
         );
 
         return findUserRegion;

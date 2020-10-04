@@ -11,8 +11,7 @@ export default class ComplaintController {
         response: Response,
     ): Promise<Response> {
         const { id, victim, cpf, region_id } = request.query;
-
-        console.log(id, victim, cpf, region_id);
+        const { regions } = request;
 
         let params = {};
 
@@ -37,12 +36,14 @@ export default class ComplaintController {
             };
         }
 
-        if (region_id) {
+        if (region_id || regions) {
             params = {
                 ...params,
-                region_id,
+                region_id: region_id || regions,
             };
         }
+
+        console.log(params);
 
         const listComplaints = container.resolve(ListComplaintsService);
 

@@ -9,6 +9,7 @@ interface TokenPayload {
     exp: number;
     sub: string;
     perfil: string;
+    regions: Array<string>;
 }
 
 export default function onlyAdmin(
@@ -26,11 +27,13 @@ export default function onlyAdmin(
 
     const decoded = verify(token, authConfig.jwt.secret);
 
-    const { perfil } = decoded as TokenPayload;
+    const { perfil, regions } = decoded as TokenPayload;
 
     if (perfil === 'operator') {
         throw new AppError('Access denied.', 401);
     }
+
+    request.regions = regions;
 
     return next();
 }

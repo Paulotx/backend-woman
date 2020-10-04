@@ -1,3 +1,8 @@
 export default interface IFindWithParamsDTO {
-    [key: string]: string | number;
+    query: string;
 }
+
+// id?: string;
+//     victim?: string;
+//     cpf?: string;
+//     region_id?: string | Array<any>;

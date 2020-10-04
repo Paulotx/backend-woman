@@ -6,6 +6,7 @@ import AppError from '@shared/errors/AppError';
 
 import User from '../infra/typeorm/entities/User';
 import IUsersRepository from '../repositories/IUsersRepository';
+import IUserRegionRepository from '../repositories/IUserRegionRepository';
 import IHashProvider from '../providers/HashProvider/models/IHashProvider';
 
 interface IRequest {
@@ -24,6 +25,9 @@ class AuthenticateUserService {
         @inject('UsersRepository')
         private usersRepository: IUsersRepository,
 
+        @inject('UserRegionRepository')
+        private userRegionRepository: IUserRegionRepository,
+
         @inject('HashProvider')
         private hashProvider: IHashProvider,
     ) {}
@@ -34,6 +38,18 @@ class AuthenticateUserService {
         if (!user) {
             throw new AppError('Incorrect email/password combination.', 401);
         }
+
+        const userRegions = await this.userRegionRepository.findRegionByUser(
+            user?.id,
+        );
+
+        if (!userRegions) {
+            throw new AppError('User without access to regions');
+        }
+
+        const regions = userRegions.map(region => {
+            return region.region_id;
+        });
 
         const passwordMatched = await this.hashProvider.compareHash(
             password,
@@ -46,7 +62,7 @@ class AuthenticateUserService {
 
         const { secret, expiresIn } = authConfig.jwt;
 
-        const token = sign({ perfil: user.perfil }, secret, {
+        const token = sign({ perfil: user.perfil, regions }, secret, {
             subject: user.id,
             expiresIn,
         });

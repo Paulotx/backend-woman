@@ -1,7 +1,6 @@
 import AppError from '@shared/errors/AppError';
-// import AppError from '@shared/errors/AppError';
 import { injectable, inject } from 'tsyringe';
-import ILinkUserRegionRepository from '../repositories/ILinkUserRegionRepository';
+import ILinkUserRegionRepository from '../repositories/IUserRegionRepository';
 
 interface IRequest {
     user_id: string;
@@ -16,7 +15,7 @@ class CreateUserService {
     ) {}
 
     public async execute({ user_id, region_id }: IRequest): Promise<void> {
-        const userRegion = await this.linkUserRegionRepository.findByUserIDAndRegionId(
+        const userRegion = await this.linkUserRegionRepository.findByUserIdAndRegionId(
             { user_id, region_id },
         );
 

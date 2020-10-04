@@ -1,5 +1,5 @@
 import AppError from '@shared/errors/AppError';
-import FakeLinkUserRepository from '../repositories/fakes/FakeLinkUserRepository';
+import FakeLinkUserRepository from '../repositories/fakes/FakeUserRepository';
 
 import LinkUserRegionService from './LinkUserRegionService';
 

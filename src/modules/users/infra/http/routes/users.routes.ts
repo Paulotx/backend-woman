@@ -4,6 +4,7 @@ import { celebrate, Segments, Joi } from 'celebrate';
 import ensureAuthenticate from '../middlewares/ensureAuthenticated';
 import onlyAdmin from '../middlewares/onlyAdmin';
 import UsersController from '../controllers/UsersController';
+import LinkUserRegionController from '../controllers/LinkUserRegionController';
 
 const usersRouter = Router();
 
@@ -11,6 +12,7 @@ usersRouter.use(ensureAuthenticate);
 usersRouter.use(onlyAdmin);
 
 const usersController = new UsersController();
+const linkUserRegionController = new LinkUserRegionController();
 
 usersRouter.get('/', usersController.index);
 
@@ -44,6 +46,17 @@ usersRouter.delete(
         },
     }),
     usersController.delete,
+);
+
+usersRouter.post(
+    '/link-region',
+    celebrate({
+        [Segments.BODY]: {
+            user_id: Joi.string().required(),
+            region_id: Joi.string().required(),
+        },
+    }),
+    linkUserRegionController.create,
 );
 
 export default usersRouter;

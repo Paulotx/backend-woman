@@ -1,15 +1,13 @@
 import ICacheProvider from '@shared/container/providers/CacheProvider/models/IChacheProvider';
-import { id } from 'date-fns/locale';
 import { injectable, inject } from 'tsyringe';
-import IFindWithParamsDTO from '../dtos/IFindWithParamsDTO';
 
 import Complaint from '../infra/typeorm/entities/Complaint';
 import IComplaintsRepository from '../repositories/IComplaintsRepository';
 
 interface IRequest {
-    id?: string | Array<string>;
-    victim?: string | Array<string>;
-    cpf?: string | Array<string>;
+    id?: string;
+    victim?: string;
+    cpf?: string;
     region_id?: string | Array<string>;
 }
 
@@ -31,50 +29,56 @@ class ListComplaintsService {
 
         // if (!complaints) {
 
-        const params: IFindWithParamsDTO[] = [];
-
-        if (data.id) {
-            if (typeof data.id === 'string') {
-                params.push({ id: Number(data.id) });
-            } else {
-                data.id.forEach(item => {
-                    params.push({ id: Number(item) });
-                });
-            }
-        }
-
-        if (data.victim) {
-            if (typeof data.victim === 'string') {
-                params.push({ victim: data.victim });
-            } else {
-                data.victim.forEach(item => {
-                    params.push({ victim: item });
-                });
-            }
-        }
-
-        if (data.cpf) {
-            if (typeof data.cpf === 'string') {
-                params.push({ cpf: data.cpf });
-            } else {
-                data.cpf.forEach(item => {
-                    params.push({ cpf: item });
-                });
-            }
-        }
+        let query = 'SELECT * FROM complaints WHERE (';
 
         if (data.region_id) {
-            if (typeof data.region_id === 'string') {
-                params.push({ region_id: data.region_id });
-            } else {
+            if (data.region_id.length === 1) {
+                query += `region_id = '${data.region_id}')`;
+            } else if (typeof data.region_id === 'object') {
                 data.region_id.forEach(item => {
-                    params.push({ region_id: item });
+                    if (data.region_id) {
+                        if (
+                            data.region_id[data.region_id.length - 1] === item
+                        ) {
+                            query += `region_id = '${item}'`;
+                        } else {
+                            query += `region_id = '${item}' OR `;
+                        }
+                    }
                 });
+                query += ')';
             }
         }
+        if (data.id) {
+            query += ` AND (id = ${data.id}`;
 
-        const complaints = await this.complaintsRepository.findAllComplaints(
-            params,
+            if (data.victim) {
+                query += ` OR victim LIKE '%${data.victim}%'`;
+            }
+
+            if (data.cpf) {
+                query += ` OR cpf LIKE '%${data.cpf}%'`;
+            }
+            query += ')';
+        }
+
+        if (!data.id && data.victim) {
+            query += ` AND (id = ${data.victim}`;
+
+            if (data.cpf) {
+                query += ` OR cpf LIKE '%${data.cpf}%'`;
+            }
+            query += ')';
+        }
+
+        if (!data.id && !data.victim && data.cpf) {
+            query += ` AND (id = ${data.cpf})`;
+        }
+
+        console.log(query);
+
+        const complaints = await this.complaintsRepository.findAllComplaintsWithParams(
+            query,
         );
 
         //     await this.cacheProvider.save('complaints-list', complaints);

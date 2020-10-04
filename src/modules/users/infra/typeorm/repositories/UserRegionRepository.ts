@@ -1,7 +1,7 @@
 import { getRepository, Repository } from 'typeorm';
 
-import ICreateLinkUserRegionDTO from '@modules/regions/dtos/ICreateLinkUserRegionDTO';
-import ILinkUserRegionRepository from '@modules/regions/repositories/ILinkUserRegionRepository';
+import ICreateLinkUserRegionDTO from '@modules/users/dtos/ICreateLinkUserRegionDTO';
+import ILinkUserRegionRepository from '@modules/users/repositories/IUserRegionRepository';
 import UserRegion from '../entities/UserRegion';
 
 class LinkUserRegionRepository implements ILinkUserRegionRepository {
@@ -17,7 +17,7 @@ class LinkUserRegionRepository implements ILinkUserRegionRepository {
         await this.ormRepository.save(userRegion);
     }
 
-    public async findByUserIDAndRegionId({
+    public async findByUserIdAndRegionId({
         user_id,
         region_id,
     }: ICreateLinkUserRegionDTO): Promise<UserRegion | undefined> {
@@ -25,6 +25,18 @@ class LinkUserRegionRepository implements ILinkUserRegionRepository {
             where: {
                 user_id,
                 region_id,
+            },
+        });
+
+        return findUserRegion;
+    }
+
+    public async findRegionByUser(
+        user_id: string,
+    ): Promise<UserRegion[] | undefined> {
+        const findUserRegion = this.ormRepository.find({
+            where: {
+                user_id,
             },
         });
 

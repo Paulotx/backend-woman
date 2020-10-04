@@ -5,11 +5,9 @@ import ensureAuthenticate from '@modules/users/infra/http/middlewares/ensureAuth
 import onlyAdmin from '@modules/users/infra/http/middlewares/onlyAdmin';
 
 import RegionsController from '../controllers/RegionsController';
-import LinkUserRegionController from '../controllers/LinkUserRegionController';
 
 const regionsRouter = Router();
 const regionsController = new RegionsController();
-const linkUserRegionController = new LinkUserRegionController();
 
 regionsRouter.use(ensureAuthenticate);
 regionsRouter.use(onlyAdmin);
@@ -25,17 +23,6 @@ regionsRouter.post(
         },
     }),
     regionsController.create,
-);
-
-regionsRouter.post(
-    '/link-user',
-    celebrate({
-        [Segments.BODY]: {
-            user_id: Joi.string().required(),
-            region_id: Joi.string().required(),
-        },
-    }),
-    linkUserRegionController.create,
 );
 
 export default regionsRouter;
