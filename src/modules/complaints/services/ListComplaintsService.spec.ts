@@ -13,8 +13,11 @@ describe('ListComplaintsService', () => {
 
     it('should be able to list the complaints', async () => {
         await fakeComplaintsRepository.create({
+            type: 'Violência Física',
             victim: 'Maria José',
             cpf: '111.111.111-11',
+            birth: new Date('1990-10-25'),
+            race: 'Pardo',
             phone: '(62) 98221-1979',
             cep: '74610-240',
             address: 'Rua 260',
@@ -31,8 +34,11 @@ describe('ListComplaintsService', () => {
         });
 
         await fakeComplaintsRepository.create({
-            victim: 'Maria da Penha',
+            type: 'Violência Física',
+            victim: 'Maria José',
             cpf: '111.111.111-11',
+            birth: new Date('1990-10-25'),
+            race: 'Pardo',
             phone: '(62) 98221-1979',
             cep: '74610-240',
             address: 'Rua 260',
@@ -57,8 +63,11 @@ describe('ListComplaintsService', () => {
 
     it('should be able to create the SQL with all parameters', async () => {
         const complaint = await fakeComplaintsRepository.create({
+            type: 'Violência Física',
             victim: 'Maria José',
             cpf: '111.111.111-11',
+            birth: new Date('1990-10-25'),
+            race: 'Pardo',
             phone: '(62) 98221-1979',
             cep: '74610-240',
             address: 'Rua 260',
@@ -75,8 +84,11 @@ describe('ListComplaintsService', () => {
         });
 
         await fakeComplaintsRepository.create({
-            victim: 'Maria da Penha',
+            type: 'Violência Física',
+            victim: 'Maria José',
             cpf: '111.111.111-11',
+            birth: new Date('1990-10-25'),
+            race: 'Pardo',
             phone: '(62) 98221-1979',
             cep: '74610-240',
             address: 'Rua 260',
@@ -106,8 +118,11 @@ describe('ListComplaintsService', () => {
 
     it('should be able to create the SQL with all parameters except id', async () => {
         const complaint = await fakeComplaintsRepository.create({
+            type: 'Violência Física',
             victim: 'Maria José',
             cpf: '111.111.111-11',
+            birth: new Date('1990-10-25'),
+            race: 'Pardo',
             phone: '(62) 98221-1979',
             cep: '74610-240',
             address: 'Rua 260',
@@ -124,8 +139,11 @@ describe('ListComplaintsService', () => {
         });
 
         await fakeComplaintsRepository.create({
-            victim: 'Maria da Penha',
+            type: 'Violência Física',
+            victim: 'Maria José',
             cpf: '111.111.111-11',
+            birth: new Date('1990-10-25'),
+            race: 'Pardo',
             phone: '(62) 98221-1979',
             cep: '74610-240',
             address: 'Rua 260',
@@ -153,8 +171,11 @@ describe('ListComplaintsService', () => {
 
     it('should be able to create the SQL with only cpf as parameters', async () => {
         const complaint = await fakeComplaintsRepository.create({
+            type: 'Violência Física',
             victim: 'Maria José',
             cpf: '111.111.111-11',
+            birth: new Date('1990-10-25'),
+            race: 'Pardo',
             phone: '(62) 98221-1979',
             cep: '74610-240',
             address: 'Rua 260',
@@ -171,8 +192,11 @@ describe('ListComplaintsService', () => {
         });
 
         await fakeComplaintsRepository.create({
-            victim: 'Maria da Penha',
+            type: 'Violência Física',
+            victim: 'Maria José',
             cpf: '111.111.111-11',
+            birth: new Date('1990-10-25'),
+            race: 'Pardo',
             phone: '(62) 98221-1979',
             cep: '74610-240',
             address: 'Rua 260',
@@ -198,9 +222,12 @@ describe('ListComplaintsService', () => {
     });
 
     it('should be able to create the SQL with a region_id array', async () => {
-        const complaint = await fakeComplaintsRepository.create({
+        await fakeComplaintsRepository.create({
+            type: 'Violência Física',
             victim: 'Maria José',
             cpf: '111.111.111-11',
+            birth: new Date('1990-10-25'),
+            race: 'Pardo',
             phone: '(62) 98221-1979',
             cep: '74610-240',
             address: 'Rua 260',
@@ -217,8 +244,11 @@ describe('ListComplaintsService', () => {
         });
 
         await fakeComplaintsRepository.create({
-            victim: 'Maria da Penha',
+            type: 'Violência Física',
+            victim: 'Maria José',
             cpf: '111.111.111-11',
+            birth: new Date('1990-10-25'),
+            race: 'Pardo',
             phone: '(62) 98221-1979',
             cep: '74610-240',
             address: 'Rua 260',

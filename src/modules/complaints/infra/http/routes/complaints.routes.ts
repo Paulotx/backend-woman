@@ -16,8 +16,11 @@ complaintsRouter.post(
     '/',
     celebrate({
         [Segments.BODY]: {
+            type: Joi.string().required(),
             victim: Joi.string().required(),
             cpf: Joi.string().required(),
+            birth: Joi.date().required(),
+            race: Joi.string().required(),
             phone: Joi.string().required(),
             cep: Joi.string().required(),
             address: Joi.string().required(),
@@ -28,6 +31,7 @@ complaintsRouter.post(
             subject: Joi.string().required(),
             attacker: Joi.string().required(),
             identification: Joi.string().optional(),
+            relation: Joi.string().required(),
             report: Joi.string().required(),
             region_id: Joi.string().required(),
         },

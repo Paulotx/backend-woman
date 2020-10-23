@@ -8,18 +8,22 @@ import Complaint from '../infra/typeorm/entities/Complaint';
 import IComplaintsRepository from '../repositories/IComplaintsRepository';
 
 interface IRequest {
+    type: string;
     victim: string;
     cpf: string;
+    birth: Date;
+    race: string;
     phone: string;
     cep: string;
     address: string;
     number: number;
-    complement: string;
+    complement?: string;
     uf: string;
     city: string;
     subject: string;
     attacker: string;
     identification?: string;
+    relation: string;
     report: string;
     region_id: string;
 }
@@ -39,8 +43,11 @@ class CreateComplaintService {
 
     public async execute(data: IRequest): Promise<Complaint> {
         const complaint = await this.complaintsRepository.create({
+            type: data.type,
             victim: data.victim,
             cpf: data.cpf,
+            birth: data.birth,
+            race: data.race,
             phone: data.phone,
             cep: data.cep,
             address: data.address,
@@ -51,6 +58,7 @@ class CreateComplaintService {
             subject: data.subject,
             attacker: data.attacker,
             identification: data.identification,
+            relation: data.relation,
             report: data.report,
             status: 'open',
             region_id: data.region_id,

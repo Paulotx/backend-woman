@@ -50,8 +50,11 @@ class ComplaintsRepository implements IComplaintsRepository {
 
     public async create(data: ICreateComplaintDTO): Promise<Complaint> {
         const complaint = this.ormRepository.create({
+            type: data.type,
             victim: data.victim,
             cpf: data.cpf,
+            birth: data.birth,
+            race: data.race,
             phone: data.phone,
             cep: data.cep,
             address: data.address,
@@ -62,6 +65,7 @@ class ComplaintsRepository implements IComplaintsRepository {
             subject: data.subject,
             attacker: data.attacker,
             identification: data.identification,
+            relation: data.relation,
             report: data.report,
             status: data.status,
             region_id: data.region_id,

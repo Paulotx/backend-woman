@@ -15,8 +15,11 @@ describe('UpdateComplaintService', () => {
 
     it('should be able to update a complaint', async () => {
         const complaint = await fakeComplaintsRepository.create({
+            type: 'Violência Física',
             victim: 'Maria José',
             cpf: '111.111.111-11',
+            birth: new Date('1990-10-25'),
+            race: 'Pardo',
             phone: '(62) 98221-1979',
             cep: '74610-240',
             address: 'Rua 260',
@@ -56,8 +59,11 @@ describe('UpdateComplaintService', () => {
 
     it('should information complaint not found', async () => {
         await fakeComplaintsRepository.create({
+            type: 'Violência Física',
             victim: 'Maria José',
             cpf: '111.111.111-11',
+            birth: new Date('1990-10-25'),
+            race: 'Pardo',
             phone: '(62) 98221-1979',
             cep: '74610-240',
             address: 'Rua 260',

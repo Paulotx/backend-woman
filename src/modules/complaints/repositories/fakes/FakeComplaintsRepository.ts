@@ -13,7 +13,6 @@ class ComplaintsRepository implements IComplaintsRepository {
     public async findAllComplaintsWithParams(
         query: string,
     ): Promise<Complaint[]> {
-        console.log(query);
         const findComplaint = this.complaints.filter(
             complaint => complaint.region_id === 'Id999',
         );

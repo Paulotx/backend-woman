@@ -33,7 +33,7 @@ export default class UsersController {
             perfil,
         });
 
-        return response.json(classToClass(user));
+        return response.status(201).json(classToClass(user));
     }
 
     public async update(

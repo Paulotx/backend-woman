@@ -15,10 +15,19 @@ class Complaint {
     id: number;
 
     @Column()
+    type: string;
+
+    @Column()
     victim: string;
 
     @Column()
     cpf: string;
+
+    @Column()
+    birth: Date;
+
+    @Column()
+    race: string;
 
     @Column()
     phone: string;
@@ -49,6 +58,9 @@ class Complaint {
 
     @Column()
     identification: string;
+
+    @Column()
+    relation: string;
 
     @Column()
     report: string;

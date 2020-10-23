@@ -1,3 +1,4 @@
+import { date } from '@hapi/joi';
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
 export default class CreateComplaints1601220947511
@@ -16,12 +17,27 @@ export default class CreateComplaints1601220947511
                         isNullable: false,
                     },
                     {
+                        name: 'type',
+                        type: 'varchar',
+                        isNullable: false,
+                    },
+                    {
                         name: 'victim',
                         type: 'varchar',
                         isNullable: false,
                     },
                     {
                         name: 'cpf',
+                        type: 'varchar',
+                        isNullable: false,
+                    },
+                    {
+                        name: 'birth',
+                        type: 'timestamp with time zone',
+                        isNullable: false,
+                    },
+                    {
+                        name: 'race',
                         type: 'varchar',
                         isNullable: false,
                     },
@@ -74,6 +90,11 @@ export default class CreateComplaints1601220947511
                         name: 'identification',
                         type: 'varchar',
                         isNullable: true,
+                    },
+                    {
+                        name: 'relation',
+                        type: 'varchar',
+                        isNullable: false,
                     },
                     {
                         name: 'report',

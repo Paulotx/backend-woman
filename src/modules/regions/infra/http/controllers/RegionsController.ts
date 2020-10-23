@@ -19,6 +19,6 @@ export default class RegionsController {
             responsible,
         });
 
-        return response.json(region);
+        return response.status(201).json(region);
     }
 }

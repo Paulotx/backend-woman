@@ -59,8 +59,11 @@ export default class ComplaintController {
         const createComplaint = container.resolve(CreateComplaintService);
 
         const complaint = await createComplaint.execute({
+            type: data.type,
             victim: data.victim,
             cpf: data.cpf,
+            birth: data.birth,
+            race: data.race,
             phone: data.phone,
             cep: data.cep,
             address: data.address,
@@ -71,11 +74,12 @@ export default class ComplaintController {
             subject: data.subject,
             attacker: data.attacker,
             identification: data.identification,
+            relation: data.relation,
             report: data.report,
             region_id: data.region_id,
         });
 
-        return response.json(complaint);
+        return response.status(201).json(complaint);
     }
 
     public async update(

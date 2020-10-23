@@ -23,8 +23,11 @@ describe('CreateComplaintService', () => {
 
     it('should be able to create a new complaint', async () => {
         const complaint = await createComplaints.execute({
+            type: 'Violência Física',
             victim: 'Maria José',
             cpf: '111.111.111-11',
+            birth: new Date('1990-10-25'),
+            race: 'Pardo',
             phone: '(62) 98221-1979',
             cep: '74610-240',
             address: 'Rua 260',
