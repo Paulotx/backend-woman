@@ -9,15 +9,16 @@ import LinkUserRegionController from '../controllers/LinkUserRegionController';
 const usersRouter = Router();
 
 usersRouter.use(ensureAuthenticate);
-usersRouter.use(onlyAdmin);
 
 const usersController = new UsersController();
 const linkUserRegionController = new LinkUserRegionController();
 
-usersRouter.get('/', usersController.index);
+usersRouter.get('/', onlyAdmin, usersController.index);
+usersRouter.get('/:id', onlyAdmin, usersController.show);
 
 usersRouter.post(
     '/',
+    onlyAdmin,
     celebrate({
         [Segments.BODY]: {
             name: Joi.string().required(),
@@ -30,6 +31,7 @@ usersRouter.post(
 
 usersRouter.put(
     '/:id',
+    onlyAdmin,
     celebrate({
         [Segments.PARAMS]: {
             id: Joi.string().uuid().required(),
@@ -40,6 +42,7 @@ usersRouter.put(
 
 usersRouter.delete(
     '/:id',
+    onlyAdmin,
     celebrate({
         [Segments.PARAMS]: {
             id: Joi.string().uuid().required(),
@@ -50,13 +53,21 @@ usersRouter.delete(
 
 usersRouter.post(
     '/link-region',
+    onlyAdmin,
     celebrate({
         [Segments.BODY]: {
-            user_id: Joi.string().required(),
-            region_id: Joi.string().required(),
+            user: Joi.string().required(),
+            region: Joi.string().required(),
         },
     }),
     linkUserRegionController.create,
+);
+
+usersRouter.get('/link-region/:id', linkUserRegionController.index);
+usersRouter.delete(
+    '/link-region/:user_id/:region_id',
+    onlyAdmin,
+    linkUserRegionController.delete,
 );
 
 export default usersRouter;

@@ -1,11 +1,13 @@
 import ICreateLinkUserRegionDTO from '../dtos/ICreateLinkUserRegionDTO';
 import UserRegion from '../infra/typeorm/entities/UserRegion';
 
-export default interface ILinkUserRegionRepository {
-    create(data: ICreateLinkUserRegionDTO): Promise<void>;
+export default interface IUserRegionRepository {
+    create(data: ICreateLinkUserRegionDTO): Promise<UserRegion>;
+    remove(link: UserRegion): Promise<void>;
 
     findByUserIdAndRegionId(
-        data: ICreateLinkUserRegionDTO,
+        user_id: string,
+        region_id: string,
     ): Promise<UserRegion | undefined>;
 
     findRegionByUser(user_id: string): Promise<UserRegion[] | undefined>;

@@ -4,11 +4,9 @@ import {
     PrimaryGeneratedColumn,
     CreateDateColumn,
     UpdateDateColumn,
-    ManyToMany,
 } from 'typeorm';
 
 import { Exclude } from 'class-transformer';
-import Region from '@modules/regions/infra/typeorm/entities/Region';
 
 @Entity('users')
 class User {
@@ -27,9 +25,6 @@ class User {
     @Column()
     @Exclude()
     password: string;
-
-    @ManyToMany(() => Region, region => region.users)
-    regions: Region[];
 
     @CreateDateColumn()
     created_at: Date;

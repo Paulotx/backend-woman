@@ -1,3 +1,4 @@
+import ICacheProvider from '@shared/container/providers/CacheProvider/models/IChacheProvider';
 import AppError from '@shared/errors/AppError';
 import { injectable, inject } from 'tsyringe';
 
@@ -16,6 +17,9 @@ class CreateUserService {
     constructor(
         @inject('RegionsRepository')
         private regionsRepository: IRegionsRepository,
+
+        @inject('CacheProvider')
+        private cacheProvider: ICacheProvider,
     ) {}
 
     public async execute({
@@ -36,6 +40,8 @@ class CreateUserService {
             uf,
             responsible,
         });
+
+        await this.cacheProvider.invalidate('regions-list');
 
         return region;
     }

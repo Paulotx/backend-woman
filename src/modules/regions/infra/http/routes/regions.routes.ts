@@ -12,6 +12,9 @@ const regionsController = new RegionsController();
 regionsRouter.use(ensureAuthenticate);
 regionsRouter.use(onlyAdmin);
 
+regionsRouter.get('/', regionsController.index);
+regionsRouter.get('/:id', regionsController.show);
+
 regionsRouter.post(
     '/',
     celebrate({
@@ -24,5 +27,8 @@ regionsRouter.post(
     }),
     regionsController.create,
 );
+
+regionsRouter.put('/:id', regionsController.update);
+regionsRouter.delete('/:id', regionsController.delete);
 
 export default regionsRouter;

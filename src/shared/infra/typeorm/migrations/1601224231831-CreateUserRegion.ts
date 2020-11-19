@@ -5,7 +5,7 @@ export default class CreateUserRegion1601224231831
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.createTable(
             new Table({
-                name: 'user_region',
+                name: 'user_regions_region',
                 columns: [
                     {
                         name: 'user_id',
@@ -51,6 +51,6 @@ export default class CreateUserRegion1601224231831
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.dropTable('user_region');
+        await queryRunner.dropTable('user_regions_region');
     }
 }

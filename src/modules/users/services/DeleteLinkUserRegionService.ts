@@ -1,6 +1,6 @@
 import AppError from '@shared/errors/AppError';
 import { injectable, inject } from 'tsyringe';
-import UserRegion from '../infra/typeorm/entities/UserRegion';
+
 import IUserRegionRepository from '../repositories/IUserRegionRepository';
 
 interface IRequest {
@@ -9,32 +9,24 @@ interface IRequest {
 }
 
 @injectable()
-class LinkUserRegionService {
+class DeleteUserService {
     constructor(
         @inject('UserRegionRepository')
         private userRegionRepository: IUserRegionRepository,
     ) {}
 
-    public async execute({
-        user_id,
-        region_id,
-    }: IRequest): Promise<UserRegion> {
+    public async execute({ user_id, region_id }: IRequest): Promise<void> {
         const userRegion = await this.userRegionRepository.findByUserIdAndRegionId(
             user_id,
             region_id,
         );
 
-        if (userRegion) {
-            throw new AppError('Data already registered');
+        if (!userRegion) {
+            throw new AppError('Data not found.');
         }
 
-        const linkUserRegion = await this.userRegionRepository.create({
-            user_id,
-            region_id,
-        });
-
-        return linkUserRegion;
+        await this.userRegionRepository.remove(userRegion);
     }
 }
 
-export default LinkUserRegionService;
+export default DeleteUserService;

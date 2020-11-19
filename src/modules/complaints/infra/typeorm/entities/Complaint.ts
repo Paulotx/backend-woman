@@ -48,6 +48,9 @@ class Complaint {
     uf: string;
 
     @Column()
+    neighborhood: string;
+
+    @Column()
     city: string;
 
     @Column()
@@ -58,6 +61,9 @@ class Complaint {
 
     @Column()
     identification: string;
+
+    @Column()
+    attacker_sex: string;
 
     @Column()
     relation: string;

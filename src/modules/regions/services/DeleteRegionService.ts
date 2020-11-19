@@ -2,7 +2,7 @@ import AppError from '@shared/errors/AppError';
 import { injectable, inject } from 'tsyringe';
 
 import ICacheProvider from '@shared/container/providers/CacheProvider/models/IChacheProvider';
-import IUsersRepository from '../repositories/IUsersRepository';
+import IRegionsRepository from '../repositories/IRegionsRepository';
 
 interface IRequest {
     id: string;
@@ -11,23 +11,23 @@ interface IRequest {
 @injectable()
 class DeleteUserService {
     constructor(
-        @inject('UsersRepository')
-        private usersRepository: IUsersRepository,
+        @inject('RegionsRepository')
+        private regionsRepository: IRegionsRepository,
 
         @inject('CacheProvider')
         private cacheProvider: ICacheProvider,
     ) {}
 
     public async execute({ id }: IRequest): Promise<void> {
-        const user = await this.usersRepository.findById(id);
+        const region = await this.regionsRepository.findById(id);
 
-        if (!user) {
-            throw new AppError('User not found.');
+        if (!region) {
+            throw new AppError('Region not found.');
         }
 
-        await this.usersRepository.remove(user);
+        await this.regionsRepository.remove(region);
 
-        await this.cacheProvider.invalidate('users-list');
+        await this.cacheProvider.invalidate('regions-list');
     }
 }
 

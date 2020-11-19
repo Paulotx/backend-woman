@@ -37,6 +37,7 @@ describe('CreateComplaintService', () => {
             city: 'Goiânia',
             subject: 'Internet 300',
             attacker: 'Jack',
+            relation: 'Husband',
             identification: '333.333.333-33',
             report: 'Me bateu',
             region_id: 'Id99999',

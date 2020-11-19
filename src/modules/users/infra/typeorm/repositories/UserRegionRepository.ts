@@ -1,26 +1,32 @@
 import { getRepository, Repository } from 'typeorm';
 
 import ICreateLinkUserRegionDTO from '@modules/users/dtos/ICreateLinkUserRegionDTO';
-import ILinkUserRegionRepository from '@modules/users/repositories/IUserRegionRepository';
+import IUserRegionRepository from '@modules/users/repositories/IUserRegionRepository';
 import UserRegion from '../entities/UserRegion';
 
-class LinkUserRegionRepository implements ILinkUserRegionRepository {
+class UserRegionRepository implements IUserRegionRepository {
     private ormRepository: Repository<UserRegion>;
 
     constructor() {
         this.ormRepository = getRepository(UserRegion);
     }
 
-    public async create(data: ICreateLinkUserRegionDTO): Promise<void> {
+    public async create(data: ICreateLinkUserRegionDTO): Promise<UserRegion> {
         const userRegion = this.ormRepository.create(data);
 
-        await this.ormRepository.save(userRegion);
+        const linkUserRegion = await this.ormRepository.save(userRegion);
+
+        return linkUserRegion;
     }
 
-    public async findByUserIdAndRegionId({
-        user_id,
-        region_id,
-    }: ICreateLinkUserRegionDTO): Promise<UserRegion | undefined> {
+    public async remove(linkUserRegion: UserRegion): Promise<void> {
+        await this.ormRepository.remove(linkUserRegion);
+    }
+
+    public async findByUserIdAndRegionId(
+        user_id: string,
+        region_id: string,
+    ): Promise<UserRegion | undefined> {
         const findUserRegion = this.ormRepository.findOne({
             where: {
                 user_id,
@@ -44,4 +50,4 @@ class LinkUserRegionRepository implements ILinkUserRegionRepository {
     }
 }
 
-export default LinkUserRegionRepository;
+export default UserRegionRepository;

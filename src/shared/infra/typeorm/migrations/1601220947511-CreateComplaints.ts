@@ -1,4 +1,3 @@
-import { date } from '@hapi/joi';
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
 export default class CreateComplaints1601220947511
@@ -67,6 +66,11 @@ export default class CreateComplaints1601220947511
                         isNullable: true,
                     },
                     {
+                        name: 'neighborhood',
+                        type: 'varchar',
+                        isNullable: true,
+                    },
+                    {
                         name: 'uf',
                         type: 'varchar(2)',
                         isNullable: false,
@@ -90,6 +94,11 @@ export default class CreateComplaints1601220947511
                         name: 'identification',
                         type: 'varchar',
                         isNullable: true,
+                    },
+                    {
+                        name: 'attacker_sex',
+                        type: 'varchar',
+                        isNullable: false,
                     },
                     {
                         name: 'relation',

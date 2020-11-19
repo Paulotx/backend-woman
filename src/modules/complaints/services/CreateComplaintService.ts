@@ -4,6 +4,9 @@ import path from 'path';
 import IMailProvider from '@shared/container/providers/MailProvider/models/IMailProvider';
 
 import INotificationsRepository from '@modules/notifications/repositories/INotificationsRepository';
+import IRegionsRepository from '@modules/regions/repositories/IRegionsRepository';
+import IUsersRepository from '@modules/users/repositories/IUsersRepository';
+import AppError from '@shared/errors/AppError';
 import Complaint from '../infra/typeorm/entities/Complaint';
 import IComplaintsRepository from '../repositories/IComplaintsRepository';
 
@@ -18,11 +21,13 @@ interface IRequest {
     address: string;
     number: number;
     complement?: string;
+    neighborhood?: string;
     uf: string;
     city: string;
     subject: string;
     attacker: string;
     identification?: string;
+    attacker_sex: string;
     relation: string;
     report: string;
     region_id: string;
@@ -36,6 +41,12 @@ class CreateComplaintService {
 
         @inject('NotificationsRepository')
         private notificationsRepository: INotificationsRepository,
+
+        @inject('RegionsRepository')
+        private regionsRepository: IRegionsRepository,
+
+        @inject('UsersRepository')
+        private usersRepository: IUsersRepository,
 
         @inject('MailProvider')
         private mailProvider: IMailProvider,
@@ -53,14 +64,16 @@ class CreateComplaintService {
             address: data.address,
             number: data.number,
             complement: data.complement,
+            neighborhood: data.neighborhood,
             uf: data.uf,
             city: data.city,
             subject: data.subject,
             attacker: data.attacker,
             identification: data.identification,
+            attacker_sex: data.attacker_sex,
             relation: data.relation,
             report: data.report,
-            status: 'open',
+            status: 'Nova',
             region_id: data.region_id,
         });
 
@@ -68,6 +81,18 @@ class CreateComplaintService {
             recipient_id: `${process.env.ID_DELEGATE}`,
             content: `Nova denuncia cadastrada - Vítima: ${complaint.victim} CPF: ${complaint.cpf}`,
         });
+
+        const region = await this.regionsRepository.findById(data.region_id);
+
+        if (!region) {
+            throw new AppError('Region not found!');
+        }
+
+        const user = await this.usersRepository.findById(region.responsible);
+
+        if (!user) {
+            throw new AppError('User not found!');
+        }
 
         const newReportNotificationTemplate = path.resolve(
             __dirname,
@@ -78,10 +103,10 @@ class CreateComplaintService {
 
         await this.mailProvider.sendMail({
             to: {
-                name: `${process.env.NAME_DELEGATE}`,
-                email: `${process.env.EMAIL_DELEGATE}`,
+                name: user.name,
+                email: user.email,
             },
-            subject: '[Stagerun] Nova denúncia registrada',
+            subject: '[Projeto Bertha] Nova denúncia registrada',
             templateData: {
                 file: newReportNotificationTemplate,
                 variables: {

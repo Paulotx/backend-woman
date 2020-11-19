@@ -11,9 +11,23 @@ class UserRepository implements IRegionsRepository {
         this.ormRepository = getRepository(Region);
     }
 
+    public async findAllRegions(): Promise<Region[]> {
+        const regions = this.ormRepository.find();
+
+        return regions;
+    }
+
     public async findByName(name: string): Promise<Region | undefined> {
         const findRegion = await this.ormRepository.findOne({
             where: { name },
+        });
+
+        return findRegion;
+    }
+
+    public async findById(id: string): Promise<Region | undefined> {
+        const findRegion = await this.ormRepository.findOne({
+            where: { id },
         });
 
         return findRegion;
@@ -25,6 +39,14 @@ class UserRepository implements IRegionsRepository {
         await this.ormRepository.save(region);
 
         return region;
+    }
+
+    public async remove(region: Region): Promise<void> {
+        await this.ormRepository.remove(region);
+    }
+
+    public async save(region: Region): Promise<Region> {
+        return this.ormRepository.save(region);
     }
 }
 

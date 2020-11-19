@@ -7,6 +7,7 @@ interface IRequest {
     id?: string;
     victim?: string;
     cpf?: string;
+    status?: string;
     region_id?: string | Array<string>;
 }
 
@@ -49,23 +50,41 @@ class ListComplaintsService {
             }
 
             if (data.cpf) {
-                query += ` OR cpf LIKE '%${data.cpf}%'`;
+                query += ` OR cpf = '${data.cpf}'`;
+            }
+
+            if (data.status) {
+                query += ` OR status = '${data.status}'`;
             }
             query += ')';
         }
 
         if (!data.id && data.victim) {
-            query += ` AND (id = ${data.victim}`;
+            query += ` AND (victim LIKE '%${data.victim}%'`;
 
             if (data.cpf) {
                 query += ` OR cpf LIKE '%${data.cpf}%'`;
+            }
+
+            if (data.status) {
+                query += ` OR status = '${data.status}'`;
             }
             query += ')';
         }
 
         if (!data.id && !data.victim && data.cpf) {
-            query += ` AND (id = ${data.cpf})`;
+            query += ` AND (cpf = '${data.cpf}')`;
+
+            if (data.status) {
+                query += ` OR status = '${data.status}'`;
+            }
         }
+
+        if (!data.id && !data.victim && !data.cpf && data.status) {
+            query += ` AND (status = '${data.status}')`;
+        }
+
+        console.log(query);
 
         const complaints = await this.complaintsRepository.findAllComplaintsWithParams(
             query,

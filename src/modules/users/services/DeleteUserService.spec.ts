@@ -1,15 +1,22 @@
 import AppError from '@shared/errors/AppError';
+import FakeCacheProvider from '@shared/container/providers/CacheProvider/fakes/FakeCacheProvider';
 import FakeUsersRepository from '../repositories/fakes/FakeUsersRepository';
 import DeleteUserService from './DeleteUserService';
 
 let fakeUsersRepository: FakeUsersRepository;
+let fakeCacheProvider: FakeCacheProvider;
+
 let deleteUsers: DeleteUserService;
 
 describe('UpdateUsers', () => {
     beforeEach(() => {
         fakeUsersRepository = new FakeUsersRepository();
+        fakeCacheProvider = new FakeCacheProvider();
 
-        deleteUsers = new DeleteUserService(fakeUsersRepository);
+        deleteUsers = new DeleteUserService(
+            fakeUsersRepository,
+            fakeCacheProvider,
+        );
     });
 
     it('should be able to delete a user', async () => {

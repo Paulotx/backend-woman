@@ -5,7 +5,7 @@ import {
     PrimaryColumn,
 } from 'typeorm';
 
-@Entity('user_region')
+@Entity('user_regions_region')
 class UserRegion {
     @PrimaryColumn()
     user_id: string;
