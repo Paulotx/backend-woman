@@ -2,6 +2,7 @@ import { getRepository, Repository } from 'typeorm';
 
 import IComplaintsRepository from '@modules/complaints/repositories/IComplaintsRepository';
 import ICreateComplaintDTO from '@modules/complaints/dtos/ICreateComplaintDTO';
+import IFindComplaintsDTO from '@modules/complaints/dtos/IFindComplaintsDTO';
 
 import Complaint from '../entities/Complaint';
 
@@ -18,8 +19,13 @@ class ComplaintsRepository implements IComplaintsRepository {
 
     public async findAllComplaintsWithParams(
         query: string,
-    ): Promise<Complaint[]> {
-        return this.ormRepository.query(query);
+    ): Promise<IFindComplaintsDTO> {
+        const complaints = await this.ormRepository.query(query);
+
+        return {
+            complaints,
+            total: complaints[0].total,
+        };
     }
 
     public async findByCpf(cpf: string): Promise<Complaint[]> {

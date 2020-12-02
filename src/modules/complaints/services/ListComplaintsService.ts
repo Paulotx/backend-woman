@@ -1,6 +1,7 @@
 import { injectable, inject } from 'tsyringe';
 
-import Complaint from '../infra/typeorm/entities/Complaint';
+import IFindComplaintsDTO from '../dtos/IFindComplaintsDTO';
+
 import IComplaintsRepository from '../repositories/IComplaintsRepository';
 
 interface IRequest {
@@ -18,73 +19,79 @@ class ListComplaintsService {
         private complaintsRepository: IComplaintsRepository,
     ) {}
 
-    public async execute(data: IRequest): Promise<Complaint[]> {
-        let query = 'SELECT * FROM complaints WHERE (';
+    public async execute(
+        data: IRequest,
+        page: number,
+    ): Promise<IFindComplaintsDTO> {
+        let query = '';
+        let filterQuery = '';
 
         if (data.region_id) {
             if (
                 data.region_id.length === 1 ||
                 typeof data.region_id === 'string'
             ) {
-                query += `region_id = '${data.region_id}')`;
+                filterQuery += `(region_id = '${data.region_id}')`;
             } else if (typeof data.region_id === 'object') {
                 data.region_id.forEach(item => {
                     if (data.region_id) {
                         if (
                             data.region_id[data.region_id.length - 1] === item
                         ) {
-                            query += `region_id = '${item}'`;
+                            filterQuery += `region_id = '${item}'`;
                         } else {
-                            query += `region_id = '${item}' OR `;
+                            filterQuery += `region_id = '${item}' OR `;
                         }
                     }
                 });
-                query += ')';
+                filterQuery += ')';
             }
         }
         if (data.id) {
-            query += ` AND (id = ${data.id}`;
+            filterQuery += ` AND (id = ${data.id}`;
 
             if (data.victim) {
-                query += ` OR victim LIKE '%${data.victim}%'`;
+                filterQuery += ` OR victim LIKE '%${data.victim}%'`;
             }
 
             if (data.cpf) {
-                query += ` OR cpf = '${data.cpf}'`;
+                filterQuery += ` OR cpf = '${data.cpf}'`;
             }
 
             if (data.status) {
-                query += ` OR status = '${data.status}'`;
+                filterQuery += ` OR status = '${data.status}'`;
             }
-            query += ')';
+            filterQuery += ')';
         }
 
         if (!data.id && data.victim) {
-            query += ` AND (victim LIKE '%${data.victim}%'`;
+            filterQuery += ` AND (victim LIKE '%${data.victim}%'`;
 
             if (data.cpf) {
-                query += ` OR cpf LIKE '%${data.cpf}%'`;
+                filterQuery += ` OR cpf LIKE '%${data.cpf}%'`;
             }
 
             if (data.status) {
-                query += ` OR status = '${data.status}'`;
+                filterQuery += ` OR status = '${data.status}'`;
             }
-            query += ')';
+            filterQuery += ')';
         }
 
         if (!data.id && !data.victim && data.cpf) {
-            query += ` AND (cpf = '${data.cpf}')`;
+            filterQuery += ` AND (cpf = '${data.cpf}')`;
 
             if (data.status) {
-                query += ` OR status = '${data.status}'`;
+                filterQuery += ` OR status = '${data.status}'`;
             }
         }
 
         if (!data.id && !data.victim && !data.cpf && data.status) {
-            query += ` AND (status = '${data.status}')`;
+            filterQuery += ` AND (status = '${data.status}')`;
         }
 
-        console.log(query);
+        const offset = (page - 1) * 10;
+
+        query += ` SELECT *, (SELECT count(*) FROM complaints WHERE ${filterQuery}) AS total FROM complaints WHERE ${filterQuery} GROUP BY id ORDER BY id DESC LIMIT 10 OFFSET ${offset}`;
 
         const complaints = await this.complaintsRepository.findAllComplaintsWithParams(
             query,

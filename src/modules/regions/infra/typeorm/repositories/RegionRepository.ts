@@ -2,6 +2,8 @@ import { getRepository, Repository } from 'typeorm';
 
 import IRegionsRepository from '@modules/regions/repositories/IRegionsRepository';
 import ICreateRegionsDTO from '@modules/regions/dtos/ICreateRegionsDTO';
+import IFindAllRegionsDTO from '@modules/regions/dtos/IFindAllRegionsDTO';
+
 import Region from '../entities/Region';
 
 class UserRepository implements IRegionsRepository {
@@ -12,9 +14,26 @@ class UserRepository implements IRegionsRepository {
     }
 
     public async findAllRegions(): Promise<Region[]> {
-        const regions = this.ormRepository.find();
+        const regions = await this.ormRepository.find();
 
         return regions;
+    }
+
+    public async findAllRegionsPaginate(
+        page: number,
+    ): Promise<IFindAllRegionsDTO> {
+        const [regions, total] = await this.ormRepository.findAndCount({
+            skip: (page - 1) * 10,
+            take: 10,
+            order: {
+                name: 'ASC',
+            },
+        });
+
+        return {
+            regions,
+            total,
+        };
     }
 
     public async findByName(name: string): Promise<Region | undefined> {

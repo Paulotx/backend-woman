@@ -45,6 +45,16 @@ export default class CreateRegions1601220744847 implements MigrationInterface {
                         default: 'now()',
                     },
                 ],
+                foreignKeys: [
+                    {
+                        name: 'Responsible',
+                        referencedTableName: 'users',
+                        referencedColumnNames: ['id'],
+                        columnNames: ['responsible'],
+                        onDelete: 'CASCADE',
+                        onUpdate: 'CASCADE',
+                    },
+                ],
             }),
         );
     }

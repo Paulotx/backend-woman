@@ -12,10 +12,15 @@ export default class RegionsController {
         request: Request,
         response: Response,
     ): Promise<Response> {
+        const { page } = request.query;
         const listRegions = container.resolve(ListRegionsService);
 
-        const regions = await listRegions.execute();
+        if (page) {
+            const regions = await listRegions.execute(Number(page));
+            return response.json(regions);
+        }
 
+        const regions = await listRegions.execute(0);
         return response.json(regions);
     }
 

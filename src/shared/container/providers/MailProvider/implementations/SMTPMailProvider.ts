@@ -15,12 +15,12 @@ export default class SMTPMailProvider implements IMailProvider {
         private mailTemplateProvider: IMailTemplateProvider,
     ) {
         this.client = nodemailer.createTransport({
-            host: 'smtp.zoho.com',
+            host: 'email-ssl.com.br',
             port: 465,
             secure: true, // true for 465, false for other ports
             auth: {
                 user: mailConfig.defaults.from.email, // generated ethereal user
-                pass: 'Qwerty@13', // generated ethereal password
+                pass: 'Lutzrun@2020', // generated ethereal password
             },
         });
     }

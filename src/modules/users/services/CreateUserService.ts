@@ -65,7 +65,7 @@ class CreateUserService {
                 name: user.name,
                 email: user.email,
             },
-            subject: '[Stagerun] Novo usuário',
+            subject: '[Projeto Bertha] Novo usuário',
             templateData: {
                 file: sendPasswordTemplate,
                 variables: {

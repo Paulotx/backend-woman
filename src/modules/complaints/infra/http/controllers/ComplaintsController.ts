@@ -11,7 +11,7 @@ export default class ComplaintController {
         request: Request,
         response: Response,
     ): Promise<Response> {
-        const { id, victim, cpf, status, region_id } = request.query;
+        const { id, victim, cpf, status, region_id, page = 1 } = request.query;
         const { regions } = request;
 
         let params = {};
@@ -53,7 +53,7 @@ export default class ComplaintController {
 
         const listComplaints = container.resolve(ListComplaintsService);
 
-        const complaints = await listComplaints.execute(params);
+        const complaints = await listComplaints.execute(params, Number(page));
 
         return response.json(complaints);
     }

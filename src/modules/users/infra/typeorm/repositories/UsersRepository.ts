@@ -2,6 +2,7 @@ import { getRepository, Repository } from 'typeorm';
 
 import IUsersRepository from '@modules/users/repositories/IUsersRepository';
 import ICreateUserDTO from '@modules/users/dtos/ICreateUserDTO';
+import IFindAllUsersDTO from '@modules/users/dtos/IFindAllUsersDTO';
 
 import User from '../entities/User';
 
@@ -16,6 +17,21 @@ class UserRepository implements IUsersRepository {
         const users = await this.ormRepository.find();
 
         return users;
+    }
+
+    public async findAllUsersPaginate(page: number): Promise<IFindAllUsersDTO> {
+        const [users, total] = await this.ormRepository.findAndCount({
+            skip: (page - 1) * 10,
+            take: 10,
+            order: {
+                name: 'ASC',
+            },
+        });
+
+        return {
+            users,
+            total,
+        };
     }
 
     public async findById(id: string): Promise<User | undefined> {

@@ -37,6 +37,14 @@ class UpdateRegionService {
             throw new AppError('Region not found.');
         }
 
+        const findRegionWithName = await this.regionsRepository.findByName(
+            name,
+        );
+
+        if (findRegionWithName && findRegionWithName.id !== id) {
+            throw new AppError('Name already in use.');
+        }
+
         region.name = name;
         region.uf = uf;
         region.city = city;

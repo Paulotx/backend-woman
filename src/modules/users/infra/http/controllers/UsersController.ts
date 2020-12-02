@@ -13,11 +13,17 @@ export default class UsersController {
         request: Request,
         response: Response,
     ): Promise<Response> {
+        const { page } = request.query;
+
         const listUsers = container.resolve(ListUsersService);
 
-        const users = await listUsers.execute();
+        if (page) {
+            const users = await listUsers.execute(Number(page));
+            return response.json(classToClass(users));
+        }
 
-        return response.json(classToClass(users));
+        const users = await listUsers.execute(0);
+        return response.json(users);
     }
 
     public async show(request: Request, response: Response): Promise<Response> {

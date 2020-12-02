@@ -13,8 +13,8 @@ export default {
 
     defaults: {
         from: {
-            email: 'contato@xupxupgeladinhos.com.br',
-            name: 'Paulo André Teixeira',
+            email: 'contato@projetobertha.com.br',
+            name: 'Projeto Bertha',
         },
     },
 } as IMailConfig;
