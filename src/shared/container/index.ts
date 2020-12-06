@@ -21,6 +21,9 @@ import RegionsRepository from '@modules/regions/infra/typeorm/repositories/Regio
 import IUserRegionRepository from '@modules/users/repositories/IUserRegionRepository';
 import UserRegionRepository from '@modules/users/infra/typeorm/repositories/UserRegionRepository';
 
+import IReportsRepository from '@modules/reports/repositories/IReportsRepository';
+import ReportsRepository from '@modules/reports/infra/typeorm/repositories/ReportsRepository';
+
 container.registerSingleton<IComplaintsRepository>(
     'ComplaintsRepository',
     ComplaintsRepository,
@@ -49,4 +52,9 @@ container.registerSingleton<IRegionsRepository>(
 container.registerSingleton<IUserRegionRepository>(
     'UserRegionRepository',
     UserRegionRepository,
+);
+
+container.registerSingleton<IReportsRepository>(
+    'ReportsRepository',
+    ReportsRepository,
 );

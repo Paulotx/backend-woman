@@ -6,7 +6,7 @@ import IFindAllRegionsDTO from '@modules/regions/dtos/IFindAllRegionsDTO';
 
 import Region from '../entities/Region';
 
-class UserRepository implements IRegionsRepository {
+class RegionsRepository implements IRegionsRepository {
     private ormRepository: Repository<Region>;
 
     constructor() {
@@ -69,4 +69,4 @@ class UserRepository implements IRegionsRepository {
     }
 }
 
-export default UserRepository;
+export default RegionsRepository;
