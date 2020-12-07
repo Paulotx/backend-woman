@@ -10,7 +10,15 @@ export default class ReportsController {
     ): Promise<Response> {
         const findTotal = container.resolve(FindTotalComplaints);
 
-        const { region_id, age, race, relation, type, cpf } = request.body;
+        const {
+            region_id,
+            age,
+            race,
+            relation,
+            type,
+            startDate,
+            endDate,
+        } = request.body;
 
         let params = {};
 
@@ -49,10 +57,17 @@ export default class ReportsController {
             };
         }
 
-        if (cpf) {
+        if (startDate) {
             params = {
                 ...params,
-                cpf,
+                startDate,
+            };
+        }
+
+        if (startDate) {
+            params = {
+                ...params,
+                endDate,
             };
         }
 

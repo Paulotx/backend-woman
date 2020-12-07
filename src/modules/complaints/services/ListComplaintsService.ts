@@ -33,6 +33,8 @@ class ListComplaintsService {
             ) {
                 filterQuery += `(region_id = '${data.region_id}')`;
             } else if (typeof data.region_id === 'object') {
+                filterQuery += '(';
+
                 data.region_id.forEach(item => {
                     if (data.region_id) {
                         if (
@@ -44,6 +46,7 @@ class ListComplaintsService {
                         }
                     }
                 });
+
                 filterQuery += ')';
             }
         }
@@ -78,11 +81,12 @@ class ListComplaintsService {
         }
 
         if (!data.id && !data.victim && data.cpf) {
-            filterQuery += ` AND (cpf = '${data.cpf}')`;
+            filterQuery += ` AND (cpf = '${data.cpf}'`;
 
             if (data.status) {
                 filterQuery += ` OR status = '${data.status}'`;
             }
+            filterQuery += ')';
         }
 
         if (!data.id && !data.victim && !data.cpf && data.status) {
@@ -91,7 +95,7 @@ class ListComplaintsService {
 
         const offset = (page - 1) * 10;
 
-        query += ` SELECT *, (SELECT count(*) FROM complaints WHERE ${filterQuery}) AS total FROM complaints WHERE ${filterQuery} GROUP BY id ORDER BY id DESC LIMIT 10 OFFSET ${offset}`;
+        query += `SELECT *, (SELECT count(*) FROM complaints WHERE ${filterQuery}) AS total FROM complaints WHERE (${filterQuery}) GROUP BY id ORDER BY id DESC LIMIT 10 OFFSET ${offset}`;
 
         const complaints = await this.complaintsRepository.findAllComplaintsWithParams(
             query,

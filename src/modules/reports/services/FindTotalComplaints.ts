@@ -1,7 +1,7 @@
-import { format } from 'date-fns';
 import { injectable, inject } from 'tsyringe';
 
 import IReportsRepository from '../repositories/IReportsRepository';
+import calculateAgeDate from '../utils/calculateAgeDate';
 
 interface IRequest {
     region_id?: string | Array<string>;
@@ -9,7 +9,8 @@ interface IRequest {
     race?: string;
     relation?: string;
     type?: string;
-    cpf?: string;
+    startDate?: string;
+    endDate?: string;
 }
 
 @injectable()
@@ -21,8 +22,168 @@ class FindTotalComplaints {
 
     public async execute(data: IRequest): Promise<number> {
         let query = '';
+        let filterQuery = '';
 
-        console.log(data);
+        if (data.region_id) {
+            if (
+                data.region_id.length === 1 ||
+                typeof data.region_id === 'string'
+            ) {
+                filterQuery += `(region_id = '${data.region_id}') AND `;
+            } else if (typeof data.region_id === 'object') {
+                filterQuery += '(';
+
+                data.region_id.forEach(item => {
+                    if (data.region_id) {
+                        if (
+                            data.region_id[data.region_id.length - 1] === item
+                        ) {
+                            filterQuery += `region_id = '${item}'`;
+                        } else {
+                            filterQuery += `region_id = '${item}' OR `;
+                        }
+                    }
+                });
+                filterQuery += ')';
+            }
+        }
+
+        if (data.age) {
+            const { startDateFormatted, dateFormatted } = calculateAgeDate(
+                data.age,
+            );
+
+            if (data.region_id) {
+                filterQuery += ' AND ';
+            }
+
+            filterQuery += `(birth::date >= '${startDateFormatted}' AND birth::date <= '${dateFormatted}'`;
+
+            if (data.race) {
+                filterQuery += ` AND race = '${data.race}'`;
+            }
+
+            if (data.relation) {
+                filterQuery += ` AND relation = '${data.relation}'`;
+            }
+
+            if (data.type) {
+                filterQuery += ` AND type = '${data.type}'`;
+            }
+
+            if (data.startDate) {
+                filterQuery += ` AND created_at::date >= '${data.startDate}'`;
+            }
+
+            if (data.endDate) {
+                filterQuery += ` AND created_at::date <= '${data.endDate}'`;
+            }
+
+            filterQuery += ')';
+        }
+
+        if (!data.age && data.race) {
+            if (data.region_id) {
+                filterQuery += ' AND ';
+            }
+
+            filterQuery += `(race = '${data.race}'`;
+
+            if (data.relation) {
+                filterQuery += ` AND relation = '${data.relation}'`;
+            }
+
+            if (data.type) {
+                filterQuery += ` AND type = '${data.type}'`;
+            }
+
+            if (data.startDate) {
+                filterQuery += ` AND created_at::date >= '${data.startDate}'`;
+            }
+
+            if (data.endDate) {
+                filterQuery += ` AND created_at::date <= '${data.endDate}'`;
+            }
+
+            filterQuery += ')';
+        }
+
+        if (!data.age && !data.race && data.relation) {
+            if (data.region_id) {
+                filterQuery += ' AND ';
+            }
+
+            filterQuery += `(relation = '${data.relation}'`;
+
+            if (data.type) {
+                filterQuery += ` AND type = '${data.type}'`;
+            }
+
+            if (data.startDate) {
+                filterQuery += ` AND created_at::date >= '${data.startDate}'`;
+            }
+
+            if (data.endDate) {
+                filterQuery += ` AND created_at::date <= '${data.endDate}'`;
+            }
+
+            filterQuery += ')';
+        }
+
+        if (!data.age && !data.race && !data.relation && data.type) {
+            if (data.region_id) {
+                filterQuery += ' AND ';
+            }
+
+            filterQuery += `(type = '${data.type}'`;
+
+            if (data.startDate) {
+                filterQuery += ` AND created_at::date >= '${data.startDate}'`;
+            }
+
+            if (data.endDate) {
+                filterQuery += ` AND created_at::date <= '${data.endDate}'`;
+            }
+
+            filterQuery += ')';
+        }
+
+        if (
+            !data.age &&
+            !data.race &&
+            !data.relation &&
+            !data.type &&
+            data.startDate
+        ) {
+            if (data.region_id) {
+                filterQuery += ' AND ';
+            }
+
+            filterQuery += `(created_at::date >= '${data.startDate}'`;
+
+            if (data.endDate) {
+                filterQuery += ` AND created_at::date <= '${data.endDate}'`;
+            }
+
+            filterQuery += ')';
+        }
+
+        if (
+            !data.age &&
+            !data.race &&
+            !data.relation &&
+            !data.type &&
+            !data.startDate &&
+            data.endDate
+        ) {
+            if (data.region_id) {
+                filterQuery += ' AND ';
+            }
+
+            filterQuery += `(created_at::date <= '${data.endDate}'`;
+        }
+
+        query += `SELECT count(*) from complaints WHERE (${filterQuery})`;
 
         // Quantidade de denúncias no total
         // query += 'SELECT count(*) FROM complaints';
@@ -75,17 +236,17 @@ class FindTotalComplaints {
         // query +=
         //     "SELECT count(*) FROM complaints WHERE (region_id = '1e3067de-e8a7-440c-8ba6-0dc7d6cbd7c3') AND (type = 'Física' AND relation='Namorado')";
 
-        const age = 15;
+        // const age = 15;
 
-        const date = new Date('2020-12-06 23:00:00');
+        // const date = new Date('2020-12-06 23:00:00');
 
-        date.setFullYear(date.getFullYear() - age);
+        // date.setFullYear(date.getFullYear() - age);
 
-        const dateFormatted = format(date, 'yyyy-MM-dd');
+        // const dateFormatted = format(date, 'yyyy-MM-dd');
 
-        const startDate = new Date(`${date.getFullYear()}-01-01 00:00:00`);
+        // const startDate = new Date(`${date.getFullYear()}-01-01 00:00:00`);
 
-        const startDateFormatted = format(startDate, 'yyyy-MM-dd');
+        // const startDateFormatted = format(startDate, 'yyyy-MM-dd');
 
         // Quantidade de denúncias por idade no total
         // query += `SELECT count(*) FROM complaints WHERE birth::date >= '${startDateFormatted}' AND birth::date <= '${dateFormatted}'`;
@@ -103,7 +264,7 @@ class FindTotalComplaints {
         // query += `SELECT count(*) FROM complaints WHERE (birth::date >= '${startDateFormatted}' AND birth::date <= '${dateFormatted}') AND (race = 'Pardo')`;
 
         // // Quantidade de denúncias por idade e por raça por região
-        query += `SELECT count(*) FROM complaints WHERE (region_id = '1e3067de-e8a7-440c-8ba6-0dc7d6cbd7c3' OR region_id = 'a1dc7896-ebab-43fe-8fe5-b6488b6e8ac4') AND (birth::date >= '${startDateFormatted}' AND birth::date <= '${dateFormatted}') AND (race = 'Pardo')`;
+        // query += `SELECT count(*) FROM complaints WHERE (region_id = '1e3067de-e8a7-440c-8ba6-0dc7d6cbd7c3' OR region_id = 'a1dc7896-ebab-43fe-8fe5-b6488b6e8ac4') AND (birth::date >= '${startDateFormatted}' AND birth::date <= '${dateFormatted}') AND (race = 'Pardo')`;
 
         const total = await this.reportsRepository.findTotalComplaints(query);
         return total;

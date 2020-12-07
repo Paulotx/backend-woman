@@ -14,7 +14,7 @@ class ReportsRepository implements IReportsRepository {
     public async findTotalComplaints(query: string): Promise<number> {
         const total = await this.ormRepository.query(query);
 
-        return total[0].count;
+        return Number(total[0].count);
     }
 }
 
