@@ -17,6 +17,7 @@ interface Request {
     uf: string;
     city: string;
     race: string;
+    gender: string;
     birth: Date;
     subject: string;
     attacker: string;

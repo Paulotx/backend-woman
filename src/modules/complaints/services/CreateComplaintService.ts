@@ -16,6 +16,7 @@ interface IRequest {
     cpf: string;
     birth: Date;
     race: string;
+    gender: string;
     phone: string;
     cep: string;
     address: string;
@@ -59,6 +60,7 @@ class CreateComplaintService {
             cpf: data.cpf,
             birth: data.birth,
             race: data.race,
+            gender: data.gender,
             phone: data.phone,
             cep: data.cep,
             address: data.address,

@@ -3,6 +3,7 @@ import { celebrate, Segments, Joi } from 'celebrate';
 
 import ensureAuthenticate from '@modules/users/infra/http/middlewares/ensureAuthenticated';
 import onlyAdmin from '@modules/users/infra/http/middlewares/onlyAdmin';
+import onlyDelegateAndAdmin from '@modules/users/infra/http/middlewares/onlyDelegateAndAdmin';
 
 import RegionsController from '../controllers/RegionsController';
 
@@ -10,13 +11,13 @@ const regionsRouter = Router();
 const regionsController = new RegionsController();
 
 regionsRouter.use(ensureAuthenticate);
-regionsRouter.use(onlyAdmin);
 
-regionsRouter.get('/', regionsController.index);
-regionsRouter.get('/:id', regionsController.show);
+regionsRouter.get('/', onlyAdmin, regionsController.index);
+regionsRouter.get('/:id', onlyDelegateAndAdmin, regionsController.show);
 
 regionsRouter.post(
     '/',
+    onlyAdmin,
     celebrate({
         [Segments.BODY]: {
             name: Joi.string().required(),
@@ -28,7 +29,7 @@ regionsRouter.post(
     regionsController.create,
 );
 
-regionsRouter.put('/:id', regionsController.update);
-regionsRouter.delete('/:id', regionsController.delete);
+regionsRouter.put('/:id', onlyAdmin, regionsController.update);
+regionsRouter.delete('/:id', onlyAdmin, regionsController.delete);
 
 export default regionsRouter;

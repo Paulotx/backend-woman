@@ -1,14 +1,19 @@
 import { Router } from 'express';
 
 import ensureAuthenticate from '@modules/users/infra/http/middlewares/ensureAuthenticated';
+import onlyDelegateAndAdmin from '@modules/users/infra/http/middlewares/onlyDelegateAndAdmin';
 
-import ReportsController from '../controllers/ReportsController';
+import ReportsSpecificController from '../controllers/ReportsSpecificController';
+import ReportsGeneralController from '../controllers/ReportsGeneralController';
 
 const regionsRouter = Router();
-const regionsController = new ReportsController();
+const reportsSpecificController = new ReportsSpecificController();
+const reportsGeneralController = new ReportsGeneralController();
 
 regionsRouter.use(ensureAuthenticate);
+regionsRouter.use(onlyDelegateAndAdmin);
 
-regionsRouter.get('/', regionsController.index);
+regionsRouter.get('/specific', reportsSpecificController.index);
+regionsRouter.get('/general', reportsGeneralController.index);
 
 export default regionsRouter;

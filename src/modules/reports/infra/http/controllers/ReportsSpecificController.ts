@@ -1,14 +1,14 @@
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 
-import FindTotalComplaints from '@modules/reports/services/FindTotalComplaints';
+import FindTotalNumberSpecificComplaints from '@modules/reports/services/FindTotalNumberSpecificComplaints';
 
-export default class ReportsController {
+export default class ReportsSpecificController {
     public async index(
         request: Request,
         response: Response,
     ): Promise<Response> {
-        const findTotal = container.resolve(FindTotalComplaints);
+        const findTotal = container.resolve(FindTotalNumberSpecificComplaints);
 
         const {
             region_id,
@@ -18,7 +18,7 @@ export default class ReportsController {
             type,
             startDate,
             endDate,
-        } = request.body;
+        } = request.query;
 
         let params = {};
 

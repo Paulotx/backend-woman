@@ -4,6 +4,7 @@ export default interface ICreateComplaintDTO {
     cpf: string;
     birth: Date;
     race: string;
+    gender: string;
     phone: string;
     cep: string;
     address: string;

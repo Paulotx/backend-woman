@@ -1,3 +1,8 @@
+import IFindTotalNumberGeneralComplaints from '../dtos/findTotalNumberGeneralComplaintsDTO';
+
 export default interface IReportsRepository {
-    findTotalComplaints(query: string): Promise<number>;
+    findTotalNumberSpecificComplaints(query: string): Promise<number>;
+    findTotalNumberGeneralComplaints(
+        query: string,
+    ): Promise<IFindTotalNumberGeneralComplaints[]>;
 }

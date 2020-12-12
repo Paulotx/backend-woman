@@ -41,6 +41,11 @@ export default class CreateComplaints1601220947511
                         isNullable: false,
                     },
                     {
+                        name: 'gender',
+                        type: 'varchar',
+                        isNullable: false,
+                    },
+                    {
                         name: 'phone',
                         type: 'varchar',
                         isNullable: false,
