@@ -30,6 +30,9 @@ class Complaint {
     race: string;
 
     @Column()
+    gender: string;
+
+    @Column()
     phone: string;
 
     @Column()

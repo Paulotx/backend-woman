@@ -61,6 +61,7 @@ class ComplaintsRepository implements IComplaintsRepository {
             cpf: data.cpf,
             birth: data.birth,
             race: data.race,
+            gender: data.gender,
             phone: data.phone,
             cep: data.cep,
             address: data.address,

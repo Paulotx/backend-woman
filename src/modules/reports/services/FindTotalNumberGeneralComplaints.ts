@@ -8,6 +8,7 @@ interface IRequest {
     region_id?: string | Array<string>;
     age?: boolean;
     race?: boolean;
+    gender?: boolean;
     relation?: boolean;
     type?: boolean;
     startDate?: string;
@@ -56,6 +57,10 @@ class FindTotalNumberGeneralComplaints {
             variable = 'race';
         }
 
+        if (data.gender) {
+            variable = 'gender';
+        }
+
         if (data.relation) {
             variable = 'relation';
         }
@@ -96,7 +101,6 @@ class FindTotalNumberGeneralComplaints {
 
             query = `SELECT extract(year FROM age('${dateFormatted}', complaints.birth)) AS key, count(extract(year from age('${dateFormatted}', complaints.birth))) FROM complaints${filterQuery} GROUP BY key HAVING count(extract(year from age('${dateFormatted}', complaints.birth))) >= 1 ORDER BY extract(year from age('${dateFormatted}', complaints.birth)) ASC`;
 
-            console.log(query);
             const total = await this.reportsRepository.findTotalNumberGeneralComplaints(
                 query,
             );
@@ -106,7 +110,6 @@ class FindTotalNumberGeneralComplaints {
 
         query += `SELECT ${variable} AS key, count(${variable}) FROM complaints${filterQuery} GROUP BY key HAVING count(${variable}) >= 1 ORDER BY count(${variable}) DESC`;
 
-        console.log(query);
         const total = await this.reportsRepository.findTotalNumberGeneralComplaints(
             query,
         );

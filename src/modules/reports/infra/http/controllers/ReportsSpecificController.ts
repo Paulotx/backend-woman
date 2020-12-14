@@ -14,6 +14,7 @@ export default class ReportsSpecificController {
             region_id,
             age,
             race,
+            gender,
             relation,
             type,
             startDate,
@@ -40,6 +41,13 @@ export default class ReportsSpecificController {
             params = {
                 ...params,
                 race,
+            };
+        }
+
+        if (gender) {
+            params = {
+                ...params,
+                gender,
             };
         }
 

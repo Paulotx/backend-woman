@@ -7,6 +7,7 @@ interface IRequest {
     region_id?: string | Array<string>;
     age?: number;
     race?: string;
+    gender?: string;
     relation?: string;
     type?: string;
     startDate?: string;
@@ -67,6 +68,10 @@ class FindTotalNumberSpecificComplaints {
                 filterQuery += ` AND race = '${data.race}'`;
             }
 
+            if (data.gender) {
+                filterQuery += ` AND gender = '${data.gender}'`;
+            }
+
             if (data.relation) {
                 filterQuery += ` AND relation = '${data.relation}'`;
             }
@@ -96,6 +101,10 @@ class FindTotalNumberSpecificComplaints {
             }
 
             filterQuery += `(race = '${data.race}'`;
+
+            if (data.gender) {
+                filterQuery += ` AND gender = '${data.gender}'`;
+            }
 
             if (data.relation) {
                 filterQuery += ` AND relation = '${data.relation}'`;
@@ -127,6 +136,10 @@ class FindTotalNumberSpecificComplaints {
 
             filterQuery += `(relation = '${data.relation}'`;
 
+            if (data.gender) {
+                filterQuery += ` AND gender = '${data.gender}'`;
+            }
+
             if (data.type) {
                 filterQuery += ` AND type = '${data.type}'`;
             }
@@ -152,6 +165,10 @@ class FindTotalNumberSpecificComplaints {
             }
 
             filterQuery += `(type = '${data.type}'`;
+
+            if (data.gender) {
+                filterQuery += ` AND gender = '${data.gender}'`;
+            }
 
             if (data.startDate) {
                 filterQuery += ` AND created_at::date >= '${data.startDate}'`;
@@ -181,6 +198,10 @@ class FindTotalNumberSpecificComplaints {
 
             filterQuery += `(created_at::date >= '${data.startDate}'`;
 
+            if (data.gender) {
+                filterQuery += ` AND gender = '${data.gender}'`;
+            }
+
             if (data.endDate) {
                 filterQuery += ` AND created_at::date <= '${data.endDate}'`;
             }
@@ -205,11 +226,33 @@ class FindTotalNumberSpecificComplaints {
             }
 
             filterQuery += `(created_at::date <= '${data.endDate}'`;
+
+            if (data.gender) {
+                filterQuery += ` AND gender = '${data.gender}'`;
+            }
+        }
+
+        if (
+            !data.age &&
+            !data.race &&
+            !data.relation &&
+            !data.type &&
+            !data.startDate &&
+            !data.endDate &&
+            data.gender
+        ) {
+            if (!data.region_id) {
+                filterQuery += 'WHERE ';
+            }
+
+            if (data.region_id) {
+                filterQuery += ' AND ';
+            }
+
+            filterQuery += `(gender = '${data.gender}'`;
         }
 
         query += `SELECT count(*) FROM complaints ${filterQuery}`;
-
-        console.log(query);
 
         const total = await this.reportsRepository.findTotalNumberSpecificComplaints(
             query,

@@ -13,6 +13,7 @@ export default class ReportsGeneralController {
         const {
             age,
             race,
+            gender,
             relation,
             type,
             region_id,
@@ -40,6 +41,13 @@ export default class ReportsGeneralController {
             params = {
                 ...params,
                 race,
+            };
+        }
+
+        if (gender) {
+            params = {
+                ...params,
+                gender,
             };
         }
 
