@@ -12,6 +12,12 @@ class ReportsRepository implements IReportsRepository {
         this.ormRepository = getRepository(Complaint);
     }
 
+    public async findComplaints(query: string): Promise<Complaint[]> {
+        const complaints = await this.ormRepository.query(query);
+
+        return complaints;
+    }
+
     public async findTotalNumberSpecificComplaints(
         query: string,
     ): Promise<number> {
@@ -24,6 +30,8 @@ class ReportsRepository implements IReportsRepository {
         query: string,
     ): Promise<IFindTotalNumberGeneralComplaints[]> {
         const response = await this.ormRepository.query(query);
+
+        console.log(response);
 
         return response;
     }

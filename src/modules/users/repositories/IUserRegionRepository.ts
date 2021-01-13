@@ -1,4 +1,5 @@
-import ICreateLinkUserRegionDTO from '../dtos/ICreateLinkUserRegionDTO';
+import ICreateLinkUserRegionDTO from '@modules/users/dtos/ICreateLinkUserRegionDTO';
+
 import UserRegion from '../infra/typeorm/entities/UserRegion';
 
 export default interface IUserRegionRepository {

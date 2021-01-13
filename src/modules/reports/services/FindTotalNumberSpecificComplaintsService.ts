@@ -1,4 +1,5 @@
 import { injectable, inject } from 'tsyringe';
+import ExcelJS from 'exceljs';
 
 import IReportsRepository from '../repositories/IReportsRepository';
 import calculateAgeDate from '../utils/calculateAgeDate';
@@ -14,6 +15,11 @@ interface IRequest {
     endDate?: string;
 }
 
+interface IResponse {
+    total: number;
+    download_link: string;
+}
+
 @injectable()
 class FindTotalNumberSpecificComplaints {
     constructor(
@@ -21,8 +27,9 @@ class FindTotalNumberSpecificComplaints {
         private reportsRepository: IReportsRepository,
     ) {}
 
-    public async execute(data: IRequest): Promise<number> {
+    public async execute(data: IRequest): Promise<IResponse> {
         let query = '';
+        let queryCreateExcelReport = '';
         let filterQuery = '';
 
         if (data.region_id) {
@@ -230,6 +237,8 @@ class FindTotalNumberSpecificComplaints {
             if (data.gender) {
                 filterQuery += ` AND gender = '${data.gender}'`;
             }
+
+            filterQuery += ')';
         }
 
         if (
@@ -249,15 +258,67 @@ class FindTotalNumberSpecificComplaints {
                 filterQuery += ' AND ';
             }
 
-            filterQuery += `(gender = '${data.gender}'`;
+            filterQuery += `(gender = '${data.gender}')`;
         }
 
         query += `SELECT count(*) FROM complaints ${filterQuery}`;
+        queryCreateExcelReport += `SELECT complaints.*, regions.name AS region_name FROM complaints LEFT JOIN regions ON (complaints.region_id = regions.id) ${filterQuery} ORDER BY complaints.id`;
 
         const total = await this.reportsRepository.findTotalNumberSpecificComplaints(
             query,
         );
-        return total;
+
+        const complaints = await this.reportsRepository.findComplaints(
+            queryCreateExcelReport,
+        );
+
+        const workbook = new ExcelJS.Workbook();
+        const worksheet = workbook.addWorksheet('Relatótio');
+
+        worksheet.columns = [
+            { header: 'ID', key: 'id', width: 10 },
+            { header: 'Região', key: 'region_name', width: 20 },
+            { header: 'Vítima', key: 'victim', width: 32 },
+            { header: 'Data de Nascimento', key: 'birth', width: 15 },
+            { header: 'Telefone', key: 'phone', width: 15 },
+            { header: 'Raça', key: 'race', width: 20 },
+            { header: 'Transgênero', key: 'gender', width: 15 },
+            { header: 'CEP', key: 'cep', width: 15 },
+            { header: 'Endereço', key: 'address', width: 20 },
+            { header: 'Numero', key: 'number', width: 10 },
+            { header: 'Complemento', key: 'complement', width: 20 },
+            { header: 'Bairro', key: 'neighborhood', width: 20 },
+            { header: 'UF', key: 'uf', width: 10 },
+            { header: 'Agressor', key: 'attacker', width: 32 },
+            {
+                header: 'Identificação do agressor',
+                key: 'identification',
+                width: 15,
+            },
+            { header: 'Sexo do Agressor', key: 'attacker_sex', width: 15 },
+            { header: 'Parentesco', key: 'relation', width: 15 },
+            { header: 'Tipo da agressão', key: 'type', width: 15 },
+            { header: 'Assunto do retorno', key: 'subject', width: 15 },
+            { header: 'Relato da agressão', key: 'report', width: 15 },
+            { header: 'Status', key: 'status', width: 12 },
+        ] as ExcelJS.Column[];
+
+        complaints.forEach(complaint => {
+            worksheet.addRow(complaint);
+        });
+
+        worksheet.getRow(1).eachCell(cell => {
+            cell.font = { bold: true };
+        });
+
+        const reportName = `relatório-${Date.now()}`;
+
+        workbook.xlsx.writeFile(`tmp/${reportName}.xlsx`);
+
+        return {
+            total,
+            download_link: reportName,
+        };
     }
 }
 

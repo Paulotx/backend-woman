@@ -3,7 +3,7 @@ import IFindAllRegionsDTO from '../dtos/IFindAllRegionsDTO';
 
 import Region from '../infra/typeorm/entities/Region';
 
-export default interface IReportsRepository {
+export default interface IRegionsRepository {
     findAllRegions(): Promise<Region[]>;
     findAllRegionsPaginate(page: number): Promise<IFindAllRegionsDTO>;
     findByName(name: string): Promise<Region | undefined>;

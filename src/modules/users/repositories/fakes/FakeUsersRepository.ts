@@ -1,6 +1,7 @@
 import { uuid } from 'uuidv4';
 import IUsersRepository from '@modules/users/repositories/IUsersRepository';
 import ICreateUserDTO from '@modules/users/dtos/ICreateUserDTO';
+import IFindAllUsersDTO from '@modules/users/dtos/IFindAllUsersDTO';
 
 import User from '../../infra/typeorm/entities/User';
 
@@ -9,6 +10,26 @@ class FakeUserRepository implements IUsersRepository {
 
     public async findAllUsers(): Promise<User[]> {
         return this.users;
+    }
+
+    public async findAllUsersPaginate(page: number): Promise<IFindAllUsersDTO> {
+        let limitStart = 1;
+        let limitEnd = 0;
+
+        if (page > 1) {
+            limitStart = (page - 1) * 10 + 1;
+        }
+
+        limitEnd = page * 10;
+
+        const users = this.users.filter(
+            (_, index) => index + 1 >= limitStart && index + 1 <= limitEnd,
+        );
+
+        return {
+            users,
+            total: users.length,
+        };
     }
 
     public async findById(id: string): Promise<User | undefined> {

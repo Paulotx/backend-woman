@@ -1,9 +1,10 @@
 import IComplaintsRepository from '@modules/complaints/repositories/IComplaintsRepository';
 import ICreateComplaintDTO from '@modules/complaints/dtos/ICreateComplaintDTO';
+import IFindComplaintsDTO from '../../dtos/IFindComplaintsDTO';
 
 import Complaint from '../../infra/typeorm/entities/Complaint';
 
-class ComplaintsRepository implements IComplaintsRepository {
+class FakeComplaintsRepository implements IComplaintsRepository {
     private complaints: Complaint[] = [];
 
     public async findAllComplaints(): Promise<Complaint[]> {
@@ -11,13 +12,23 @@ class ComplaintsRepository implements IComplaintsRepository {
     }
 
     public async findAllComplaintsWithParams(
-        query: string,
-    ): Promise<Complaint[]> {
+        _: string,
+    ): Promise<IFindComplaintsDTO> {
         const findComplaint = this.complaints.filter(
-            complaint => complaint.region_id === 'Id999',
+            complaint =>
+                complaint.region_id === 'region_id' ||
+                complaint.region_id === 'region_id1' ||
+                complaint.region_id === 'region_id2' ||
+                complaint.victim === 'Maria José' ||
+                complaint.id === 1 ||
+                complaint.status === 'Nova' ||
+                complaint.cpf === '111.111.111-11',
         );
 
-        return findComplaint;
+        return {
+            complaints: findComplaint,
+            total: findComplaint.length,
+        };
     }
 
     public async findByCpf(cpf: string): Promise<Complaint[]> {
@@ -64,4 +75,4 @@ class ComplaintsRepository implements IComplaintsRepository {
     }
 }
 
-export default ComplaintsRepository;
+export default FakeComplaintsRepository;

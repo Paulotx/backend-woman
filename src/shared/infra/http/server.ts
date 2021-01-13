@@ -5,6 +5,7 @@ import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import { errors } from 'celebrate';
 import 'express-async-errors';
+import path from 'path';
 
 import AppError from '@shared/errors/AppError';
 import rateLimiter from './middlewares/rateLimiter';
@@ -18,6 +19,10 @@ const app = express();
 app.use(cors());
 app.use(rateLimiter);
 app.use(express.json());
+app.use(
+    '/files',
+    express.static(path.resolve(__dirname, '..', '..', '..', '..', 'tmp')),
+);
 app.use(routes);
 app.use(errors());
 app.use((err: Error, request: Request, response: Response, _: NextFunction) => {
