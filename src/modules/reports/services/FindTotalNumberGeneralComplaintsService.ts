@@ -105,10 +105,14 @@ class FindTotalNumberGeneralComplaints {
                 query,
             );
 
+            console.log(query);
+
             return total;
         }
 
         query += `SELECT ${variable} AS key, count(${variable}) FROM complaints${filterQuery} GROUP BY key HAVING count(${variable}) >= 1 ORDER BY count(${variable}) DESC`;
+
+        console.log(query);
 
         const total = await this.reportsRepository.findTotalNumberGeneralComplaints(
             query,

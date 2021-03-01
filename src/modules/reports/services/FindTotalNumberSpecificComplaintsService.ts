@@ -69,7 +69,7 @@ class FindTotalNumberSpecificComplaints {
                 filterQuery += ' AND ';
             }
 
-            filterQuery += `(birth::date >= '${startDateFormatted}' AND birth::date <= '${dateFormatted}'`;
+            filterQuery += `(birth::date > '${startDateFormatted}' AND birth::date <= '${dateFormatted}'`;
 
             if (data.race) {
                 filterQuery += ` AND race = '${data.race}'`;
@@ -268,12 +268,16 @@ class FindTotalNumberSpecificComplaints {
             query,
         );
 
+        console.log(query);
+        console.log(total);
+        console.log(queryCreateExcelReport);
+
         const complaints = await this.reportsRepository.findComplaints(
             queryCreateExcelReport,
         );
 
         const workbook = new ExcelJS.Workbook();
-        const worksheet = workbook.addWorksheet('Relatótio');
+        const worksheet = workbook.addWorksheet('Relatório');
 
         worksheet.columns = [
             { header: 'ID', key: 'id', width: 10 },

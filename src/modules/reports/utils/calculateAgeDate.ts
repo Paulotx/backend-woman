@@ -12,7 +12,11 @@ export default (age: number): IAgeDate => {
 
     const dateFormatted = format(date, 'yyyy-MM-dd');
 
-    const startDate = new Date(`${date.getFullYear()}-01-01 00:00:00`);
+    const year = date.getFullYear();
+    const month = date.getMonth();
+    const day = date.getDate();
+
+    const startDate = new Date(`${year - 1}-${month + 1}-${day} 00:00:00`);
 
     const startDateFormatted = format(startDate, 'yyyy-MM-dd');
 

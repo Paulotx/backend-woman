@@ -44,8 +44,6 @@ describe('CreateComplaintService', () => {
             responsible: user.id,
         });
 
-        console.log(region.id);
-
         const complaint = await createComplaints.execute({
             type: 'Violência Física',
             victim: 'Maria José',

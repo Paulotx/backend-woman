@@ -31,8 +31,6 @@ class ReportsRepository implements IReportsRepository {
     ): Promise<IFindTotalNumberGeneralComplaints[]> {
         const response = await this.ormRepository.query(query);
 
-        console.log(response);
-
         return response;
     }
 }
